@@ -77,8 +77,8 @@ create policy "projects_delete_own_folder"
 -- así que el primer alta de un admin se hace a mano:
 --
 -- 1. Supabase Dashboard → Authentication → Users → Add user
---    - email: mauri@codeia.local   password: la que quieras
---    - email: siro@codeia.local    password: la que quieras
+--    - email: mauri@codeia.com   password: la que quieras
+--    - email: siro@codeia.com    password: la que quieras
 --    (el "email" es interno, nadie lo usa: el login real es por nickname)
 --
 -- 2. Copiá el UUID que les asignó Supabase a cada uno y corré:

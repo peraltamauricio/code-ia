@@ -17,7 +17,7 @@ Abrí http://localhost:3000
 1. Creá un proyecto en https://supabase.com
 2. **SQL Editor** → pegá y corré todo `supabase-schema.sql`
 3. **Project Settings → API** → copiá `Project URL`, `anon public key` y `service_role key` a tu `.env.local`
-4. **Authentication → Users → Add user** → creá a Mauri y Siro (emails internos `mauri@codeia.local` / `siro@codeia.local`, la contraseña que quieras) — el login real de la app es por nickname, el email es solo interno de Supabase Auth
+4. **Authentication → Users → Add user** → creá a Mauri y Siro (emails internos `mauri@codeia.com` / `siro@codeia.com`, la contraseña que quieras) — el login real de la app es por nickname, el email es solo interno de Supabase Auth
 5. Copiá el UUID de cada uno y corré el `insert into profiles (...)` que está comentado al final de `supabase-schema.sql`
 
 Desde ahí, Mauri y Siro ya pueden entrar a `/portal`, agregar estudiantes y tildar el progreso de cada clase. Los estudiantes suben sus proyectos (`.html`, `.css`, `.js`) desde su propio panel — quedan en Supabase Storage, bucket `projects`, cada uno en su propia carpeta.
