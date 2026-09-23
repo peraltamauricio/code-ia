@@ -1,0 +1,645 @@
+<title>CODE +IA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root{
+  --bg:#0c0b18;
+  --bg2:#13112a;
+  --panel:#1a1733;
+  --panel-line:#2e2a55;
+  --ink:#eef0ff;
+  --ink-dim:#a6a3d6;
+  --cyan:#4ce0ff;
+  --pink:#ff4fa3;
+  --lime:#c6ff4c;
+  --amber:#ffcb47;
+  --shadow-hard:#08071280;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'VT323', monospace;
+  font-size:20px;
+  line-height:1.5;
+  overflow-x:hidden;
+  image-rendering:pixelated;
+}
+
+.pixel{font-family:'Press Start 2P', monospace;}
+
+/* ---- scanline / crt overlay ---- */
+.crt{
+  pointer-events:none;
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.035) 0px,
+    rgba(255,255,255,0.035) 1px,
+    transparent 2px,
+    transparent 3px
+  );
+  mix-blend-mode:overlay;
+}
+.vignette{
+  pointer-events:none;
+  position:fixed;
+  inset:0;
+  z-index:49;
+  box-shadow: inset 0 0 18vw 4vw #000;
+  opacity:.55;
+}
+
+a{color:inherit;}
+
+/* ---- pixel border utility (fake 8-bit border via layered box-shadow) ---- */
+.pixel-border{
+  position:relative;
+  border:4px solid var(--ink);
+  box-shadow:
+    0 0 0 4px var(--bg),
+    0 0 0 8px currentColor;
+  image-rendering:pixelated;
+}
+
+button, .btn{
+  font-family:'Press Start 2P', monospace;
+  cursor:pointer;
+  border:none;
+  background:var(--pink);
+  color:#150a1f;
+  padding:14px 20px;
+  font-size:12px;
+  letter-spacing:1px;
+  box-shadow: 4px 4px 0 0 #7a0f4d, 4px 4px 0 4px #000;
+  transition: transform .08s steps(2), box-shadow .08s steps(2);
+}
+button:hover, .btn:hover{
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 0 #7a0f4d, 2px 2px 0 4px #000;
+}
+button:active, .btn:active{
+  transform: translate(4px,4px);
+  box-shadow: 0 0 0 0 #7a0f4d, 0 0 0 4px #000;
+}
+
+.wrap{
+  max-width:1100px;
+  margin:0 auto;
+  padding-inline:24px;
+}
+
+/* ---------------- NAV ---------------- */
+header.nav{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:40;
+  background:var(--bg2);
+  border-bottom:4px solid var(--panel-line);
+}
+.nav-inner{
+  max-width:1100px;
+  margin:0 auto;
+  padding:14px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  white-space:nowrap;
+}
+.logo-badge{
+  width:34px;height:34px;
+  background:var(--lime);
+  display:grid;place-items:center;
+  color:#0c0b18;
+  box-shadow:3px 3px 0 #000;
+  font-size:14px;
+}
+.nav-links{
+  display:flex;
+  gap:22px;
+  font-family:'VT323',monospace;
+  font-size:20px;
+  color:var(--ink-dim);
+}
+.nav-links a{text-decoration:none;}
+.nav-links a:hover{color:var(--cyan);}
+@media (max-width:700px){ .nav-links{display:none;} }
+
+/* ---------------- HERO ---------------- */
+.hero{
+  position:relative;
+  padding:72px 0 56px;
+  background:
+    radial-gradient(circle at 20% 10%, #2a1750 0%, transparent 45%),
+    radial-gradient(circle at 85% 30%, #0d2a3a 0%, transparent 40%),
+    var(--bg);
+  border-bottom:4px solid var(--panel-line);
+  overflow:hidden;
+}
+.stars{
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, #fff 0, transparent 50%),
+    radial-gradient(2px 2px at 30% 70%, #fff 0, transparent 50%),
+    radial-gradient(2px 2px at 50% 15%, #fff 0, transparent 50%),
+    radial-gradient(2px 2px at 70% 55%, #fff 0, transparent 50%),
+    radial-gradient(2px 2px at 90% 25%, #fff 0, transparent 50%),
+    radial-gradient(2px 2px at 15% 85%, #fff 0, transparent 50%),
+    radial-gradient(2px 2px at 60% 90%, #fff 0, transparent 50%),
+    radial-gradient(2px 2px at 85% 75%, #fff 0, transparent 50%);
+  opacity:.5;
+}
+.hero-inner{
+  position:relative;
+  max-width:1100px;
+  margin:0 auto;
+  padding-inline:24px;
+  text-align:center;
+}
+.eyebrow{
+  font-family:'Press Start 2P';
+  font-size:11px;
+  color:var(--amber);
+  letter-spacing:2px;
+  margin-bottom:18px;
+}
+.eyebrow::before{content:"▸ ";}
+h1.title{
+  font-family:'Press Start 2P';
+  font-size:clamp(28px, 7vw, 58px);
+  line-height:1.25;
+  margin:0 0 20px;
+  text-wrap:balance;
+  color:var(--ink);
+  text-shadow:
+    3px 3px 0 var(--pink),
+    6px 6px 0 var(--cyan);
+}
+h1.title .plus{color:var(--lime);}
+.subtitle{
+  font-size:26px;
+  color:var(--ink-dim);
+  max-width:640px;
+  margin:0 auto 34px;
+}
+.hero-cta{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:44px;
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--cyan);
+  box-shadow: 4px 4px 0 0 #0a4a5c, 4px 4px 0 4px #000;
+  border: 2px solid var(--cyan);
+}
+.btn-ghost:hover{ box-shadow: 2px 2px 0 0 #0a4a5c, 2px 2px 0 4px #000; }
+
+.blink{
+  animation:blink 1.1s steps(1) infinite;
+  font-family:'Press Start 2P';
+  font-size:12px;
+  color:var(--lime);
+}
+@keyframes blink{ 50%{opacity:0;} }
+
+/* HUD stat row */
+.hud{
+  display:flex;
+  justify-content:center;
+  gap:28px;
+  flex-wrap:wrap;
+  font-family:'Press Start 2P';
+  font-size:11px;
+  color:var(--ink-dim);
+}
+.hud span{color:var(--lime);}
+
+/* ---------------- SECTION TITLES ---------------- */
+.section{ padding:64px 0; border-bottom:4px solid var(--panel-line); }
+.section:last-of-type{ border-bottom:none; }
+.section-head{
+  text-align:center;
+  margin-bottom:44px;
+}
+.section-tag{
+  font-family:'Press Start 2P';
+  font-size:10px;
+  color:var(--cyan);
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+.section-title{
+  font-family:'Press Start 2P';
+  font-size:clamp(20px,4vw,30px);
+  margin:0 0 14px;
+  text-wrap:balance;
+}
+.section-desc{
+  color:var(--ink-dim);
+  font-size:22px;
+  max-width:620px;
+  margin:0 auto;
+}
+
+/* ---------------- LEVELS (HTML/CSS/JS) ---------------- */
+.levels{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+@media (max-width:820px){ .levels{grid-template-columns:1fr;} }
+
+.level-card{
+  background:var(--panel);
+  border:3px solid var(--panel-line);
+  padding:26px 22px 22px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.level-num{
+  position:absolute;
+  top:-14px; left:18px;
+  background:#000;
+  border:3px solid var(--panel-line);
+  padding:4px 10px;
+  font-family:'Press Start 2P';
+  font-size:11px;
+}
+.level-card.c-html{ box-shadow:6px 6px 0 0 #4a1220; }
+.level-card.c-css{ box-shadow:6px 6px 0 0 #123a4a; }
+.level-card.c-js{ box-shadow:6px 6px 0 0 #4a4212; }
+
+.level-icon{
+  width:56px;height:56px;
+  display:grid;place-items:center;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  margin-top:6px;
+}
+.c-html .level-icon{ background:var(--pink); color:#2a0a17; }
+.c-css  .level-icon{ background:var(--cyan); color:#052730; }
+.c-js   .level-icon{ background:var(--amber); color:#2b2404; }
+
+.level-title{
+  font-family:'Press Start 2P';
+  font-size:15px;
+  margin:0;
+}
+.level-desc{ color:var(--ink-dim); font-size:20px; margin:0; }
+
+.level-meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:16px;
+  color:var(--ink-dim);
+  border-top:2px dashed var(--panel-line);
+  padding-top:10px;
+  margin-top:auto;
+}
+.xp{color:var(--lime);}
+
+/* progress bar (decorative) */
+.bar{
+  height:14px;
+  background:#000;
+  border:2px solid var(--panel-line);
+  overflow:hidden;
+}
+.bar > i{
+  display:block; height:100%;
+}
+.c-html .bar > i{ width:38%; background:var(--pink); }
+.c-css .bar > i{ width:24%; background:var(--cyan); }
+.c-js .bar > i{ width:12%; background:var(--amber); }
+
+/* ---------------- METHOD / ROADMAP ---------------- */
+.roadmap{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  max-width:720px;
+  margin:0 auto;
+}
+.road-step{
+  display:grid;
+  grid-template-columns:64px 1fr;
+  gap:20px;
+  position:relative;
+  padding-bottom:38px;
+}
+.road-step:last-child{ padding-bottom:0; }
+.road-step::before{
+  content:"";
+  position:absolute;
+  left:31px; top:56px; bottom:-4px;
+  width:4px;
+  background:var(--panel-line);
+}
+.road-step:last-child::before{ display:none; }
+.road-dot{
+  width:64px;height:64px;
+  background:var(--panel);
+  border:3px solid var(--lime);
+  display:grid;place-items:center;
+  font-family:'Press Start 2P';
+  font-size:14px;
+  color:var(--lime);
+  z-index:1;
+}
+.road-body h3{
+  font-family:'Press Start 2P';
+  font-size:14px;
+  margin:8px 0 8px;
+}
+.road-body p{ color:var(--ink-dim); font-size:20px; margin:0; }
+
+/* ---------------- INFO / SCHEDULE ---------------- */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+@media (max-width:820px){ .info-grid{grid-template-columns:1fr;} }
+.info-card{
+  background:var(--bg2);
+  border:3px solid var(--panel-line);
+  padding:22px;
+  text-align:center;
+}
+.info-card .ic{
+  font-family:'Press Start 2P';
+  font-size:22px;
+  color:var(--amber);
+  margin-bottom:12px;
+}
+.info-card h4{
+  font-family:'Press Start 2P';
+  font-size:13px;
+  margin:0 0 10px;
+}
+.info-card p{ color:var(--ink-dim); font-size:19px; margin:0; }
+
+/* ---------------- CTA / INSCRIPCION ---------------- */
+.cta-panel{
+  background:var(--panel);
+  border:4px solid var(--lime);
+  box-shadow:8px 8px 0 0 #1f2a06;
+  padding:44px 30px;
+  text-align:center;
+  max-width:760px;
+  margin:0 auto;
+}
+.cta-panel h2{
+  font-family:'Press Start 2P';
+  font-size:clamp(18px,3.4vw,26px);
+  margin:0 0 16px;
+}
+.cta-panel p{ color:var(--ink-dim); font-size:22px; margin:0 0 28px; }
+.cta-form{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.cta-form input{
+  font-family:'VT323',monospace;
+  font-size:20px;
+  background:#000;
+  color:var(--ink);
+  border:2px solid var(--panel-line);
+  padding:12px 14px;
+  min-width:220px;
+  flex:1;
+}
+.cta-form input:focus{ outline:3px solid var(--cyan); outline-offset:2px; }
+.cta-note{ margin-top:16px; font-size:16px; color:var(--ink-dim); }
+.cta-success{
+  display:none;
+  margin-top:18px;
+  font-family:'Press Start 2P';
+  font-size:12px;
+  color:var(--lime);
+}
+
+/* ---------------- FOOTER ---------------- */
+footer{
+  padding:36px 0 48px;
+  text-align:center;
+  color:var(--ink-dim);
+  font-size:17px;
+}
+footer .pixel{ font-size:11px; color:var(--ink-dim); display:block; margin-bottom:10px; }
+.heart{ color:var(--pink); }
+
+::selection{ background:var(--pink); color:#160a10; }
+</style>
+
+<div class="crt"></div>
+<div class="vignette"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-badge pixel">C+</div>
+      <span class="pixel" style="font-size:13px;">CODE <span style="color:var(--lime)">+IA</span></span>
+    </div>
+    <nav class="nav-links">
+      <a href="#niveles">Niveles</a>
+      <a href="#metodo">Método</a>
+      <a href="#info">Info</a>
+      <a href="#anotarse">Anotate</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="stars"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">TALLER DE PROGRAMACIÓN PARA CHICOS</div>
+    <h1 class="title">CODE<span class="plus">+</span>IA</h1>
+    <p class="subtitle">Aprendé HTML, CSS y JavaScript jugando. Subí de nivel, construí tus propias páginas web y usá la IA como tu compañera de equipo.</p>
+    <div class="hero-cta">
+      <button onclick="document.getElementById('anotarse').scrollIntoView({behavior:'smooth'})">▶ EMPEZAR AHORA</button>
+      <a class="btn btn-ghost" href="#niveles">VER NIVELES</a>
+    </div>
+    <div class="blink">PRESIONÁ START PARA JUGAR ▾</div>
+  </div>
+</section>
+
+<section class="section" style="border-bottom:4px solid var(--panel-line); padding-top:36px; padding-bottom:36px;">
+  <div class="wrap hud">
+    <div>ALUMNOS <span id="statAlumnos">0</span></div>
+    <div>PROYECTOS <span id="statProyectos">0</span></div>
+    <div>NIVELES <span>3</span></div>
+    <div>EDAD <span>10-15</span></div>
+  </div>
+</section>
+
+<section class="section" id="niveles">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">MAPA DEL JUEGO</div>
+      <h2 class="section-title">Elegí tu mundo</h2>
+      <p class="section-desc">Cada lenguaje es un nivel. Los superás en orden, sumando puntos de experiencia y desbloqueando el siguiente.</p>
+    </div>
+    <div class="levels">
+      <div class="level-card c-html">
+        <span class="level-num">NIVEL 1</span>
+        <div class="level-icon">&lt;/&gt;</div>
+        <h3 class="level-title">HTML</h3>
+        <p class="level-desc">La estructura de todo sitio. Títulos, imágenes, listas y links: los ladrillos de la web.</p>
+        <div class="bar"><i></i></div>
+        <div class="level-meta"><span>6 misiones</span><span class="xp">+120 XP</span></div>
+      </div>
+      <div class="level-card c-css">
+        <span class="level-num">NIVEL 2</span>
+        <div class="level-icon">🎨</div>
+        <h3 class="level-title">CSS</h3>
+        <p class="level-desc">Colores, animaciones y diseño. Convertí una página en blanco y negro en una obra de arte.</p>
+        <div class="bar"><i></i></div>
+        <div class="level-meta"><span>7 misiones</span><span class="xp">+150 XP</span></div>
+      </div>
+      <div class="level-card c-js">
+        <span class="level-num">NIVEL 3</span>
+        <div class="level-icon">⚡</div>
+        <h3 class="level-title">JavaScript</h3>
+        <p class="level-desc">Hacé que las páginas respondan. Botones, juegos simples y tu primer proyecto con IA.</p>
+        <div class="bar"><i></i></div>
+        <div class="level-meta"><span>8 misiones</span><span class="xp">+200 XP</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="metodo">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">CÓMO JUGAMOS</div>
+      <h2 class="section-title">El método CODE+IA</h2>
+      <p class="section-desc">Cuatro pasos que se repiten en cada clase, como las fases de un nivel de videojuego.</p>
+    </div>
+    <div class="roadmap">
+      <div class="road-step">
+        <div class="road-dot">1</div>
+        <div class="road-body">
+          <h3>MISIÓN DEL DÍA</h3>
+          <p>Arrancamos con un reto chico y concreto: "hacé que este botón cambie de color al tocarlo".</p>
+        </div>
+      </div>
+      <div class="road-step">
+        <div class="road-dot">2</div>
+        <div class="road-body">
+          <h3>CÓDIGO EN VIVO</h3>
+          <p>Escribimos juntos, línea por línea, viendo el resultado al instante en la pantalla.</p>
+        </div>
+      </div>
+      <div class="road-step">
+        <div class="road-dot">3</div>
+        <div class="road-body">
+          <h3>IA COMO COPILOTO</h3>
+          <p>Le pedimos ayuda a la inteligencia artificial para entender errores y descubrir nuevas ideas, sin copiar y pegar sin pensar.</p>
+        </div>
+      </div>
+      <div class="road-step">
+        <div class="road-dot">4</div>
+        <div class="road-body">
+          <h3>SUBE DE NIVEL</h3>
+          <p>Cada chico termina la clase con su proyecto guardado y XP ganado para el próximo nivel.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="info">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">DATOS DE LA PARTIDA</div>
+      <h2 class="section-title">Info del taller</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="ic">⏱</div>
+        <h4>DURACIÓN</h4>
+        <p>12 semanas · 1 clase semanal de 90 minutos</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">👾</div>
+        <h4>GRUPOS</h4>
+        <p>Máximo 10 chicos por sala, de 10 a 15 años</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">🖥</div>
+        <h4>REQUISITOS</h4>
+        <p>Solo ganas de aprender. Las compus las ponemos nosotros</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="anotarse">
+  <div class="wrap">
+    <div class="cta-panel">
+      <h2>¿LISTO PARA EL SIGUIENTE NIVEL?</h2>
+      <p>Dejanos tu mail y te contamos cuándo arranca la próxima cohorte.</p>
+      <form class="cta-form" id="joinForm">
+        <input id="joinEmail" type="email" placeholder="tu-email@ejemplo.com" required />
+        <button type="submit">▶ ANOTARME</button>
+      </form>
+      <p class="cta-note">Sin spam. Solo novedades del taller CODE +IA.</p>
+      <p class="cta-success" id="joinSuccess">¡LISTO! REVISÁ TU CORREO ✓</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="pixel">CODE <span style="color:var(--lime)">+IA</span></span>
+  hecho con <span class="heart">♥</span> para la próxima generación de programadores
+</footer>
+
+<script>
+(function(){
+  function animateCount(el, target, duration){
+    var start = 0;
+    var startTime = performance.now();
+    function tick(now){
+      var p = Math.min(1, (now - startTime) / duration);
+      el.textContent = Math.floor(p * target);
+      if(p < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  }
+  try{
+    animateCount(document.getElementById('statAlumnos'), 84, 1200);
+    animateCount(document.getElementById('statProyectos'), 156, 1400);
+  }catch(e){}
+
+  var form = document.getElementById('joinForm');
+  var success = document.getElementById('joinSuccess');
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      success.style.display = 'block';
+      form.reset();
+    });
+  }
+})();
+</script>
