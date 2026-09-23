@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Nav() {
   return (
     <header className="nav">
@@ -10,6 +12,7 @@ export default function Nav() {
           <a href="#niveles">niveles</a>
           <a href="#clases">clases</a>
           <a href="#metodo">método</a>
+          <Link href="/alumnos">alumnos</Link>
         </nav>
         <a className="btn btn-solid nav-cta spotlight" href="/portal">
           Entrar al portal

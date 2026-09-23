@@ -89,7 +89,12 @@ export default function StudentPanel({
         </div>
         <p className="level-desc" style={{ marginBottom: 14 }}>
           Subí los archivos de tu proyecto (.html, .css, .js). Si subís un archivo con el mismo
-          nombre, reemplaza al anterior.
+          nombre, reemplaza al anterior. Llamá <b style={{ color: "var(--ink)" }}>index.html</b>{" "}
+          al archivo principal: es el único que aparece en{" "}
+          <a href="/alumnos" style={{ color: "var(--violet-soft)" }}>
+            Páginas de Alumnos
+          </a>
+          , la galería pública que van a ver tus padres.
         </p>
 
         <label
