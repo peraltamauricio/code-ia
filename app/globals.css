@@ -276,15 +276,10 @@ header.nav.scrolled .nav-inner {
   white-space: nowrap;
 }
 .brand-mark {
-  width: 24px;
-  height: 24px;
-  display: grid;
-  place-items: center;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--violet-soft), var(--violet-deep));
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  filter: drop-shadow(0 0 6px rgba(196, 139, 255, 0.55));
 }
 .nav-links {
   display: flex;

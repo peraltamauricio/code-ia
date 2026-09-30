@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { supabaseAdmin, supabaseAdminConfigured } from "@/lib/supabaseAdmin";
 
 export const revalidate = 0;
@@ -46,7 +47,7 @@ export default async function AlumnosPage() {
       <header className="nav">
         <div className="nav-inner">
           <Link href="/" className="brand">
-            <div className="brand-mark">+</div>
+            <Image src="/logo.png" alt="" width={28} height={28} className="brand-mark" />
             CODE<span style={{ color: "var(--violet-soft)" }}>+IA</span>
           </Link>
           <Link className="btn nav-cta" href="/">

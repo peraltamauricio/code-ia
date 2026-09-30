@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const LINKS = [
   { href: "/#niveles", label: "niveles" },
@@ -18,7 +19,7 @@ export default function Nav() {
     <header className="nav">
       <div className="nav-inner">
         <div className="brand">
-          <div className="brand-mark">+</div>
+          <Image src="/logo.png" alt="" width={28} height={28} className="brand-mark" priority />
           CODE<span style={{ color: "var(--violet-soft)" }}>+IA</span>
         </div>
         <nav className="nav-links">

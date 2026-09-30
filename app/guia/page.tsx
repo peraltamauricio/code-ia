@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { guide, CATS, GuideEntry } from "@/lib/guide";
 
 export default function GuiaPage() {
@@ -23,7 +24,7 @@ export default function GuiaPage() {
       <header className="nav">
         <div className="nav-inner">
           <Link href="/" className="brand">
-            <div className="brand-mark">+</div>
+            <Image src="/logo.png" alt="" width={28} height={28} className="brand-mark" />
             CODE<span style={{ color: "var(--violet-soft)" }}>+IA</span>
           </Link>
           <Link className="btn nav-cta" href="/">

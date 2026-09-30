@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { supabase, supabaseConfigured, Profile } from "@/lib/supabaseClient";
 import LoginForm from "@/components/portal/LoginForm";
 import StudentPanel from "@/components/portal/StudentPanel";
@@ -48,7 +49,7 @@ export default function PortalPage() {
       <header className="nav">
         <div className="nav-inner">
           <Link href="/" className="brand">
-            <div className="brand-mark">+</div>
+            <Image src="/logo.png" alt="" width={28} height={28} className="brand-mark" />
             CODE<span style={{ color: "var(--violet-soft)" }}>+IA</span>
           </Link>
           <Link className="btn nav-cta" href="/">
