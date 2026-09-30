@@ -2,6 +2,7 @@
 
 import { Fragment, FormEvent, useCallback, useEffect, useState } from "react";
 import { supabase, Profile } from "@/lib/supabaseClient";
+import { curriculum } from "@/lib/curriculum";
 
 type ProjectFile = { name: string; url: string };
 
@@ -115,7 +116,7 @@ export default function AdminPanel({
           <thead>
             <tr>
               <th>Estudiante</th>
-              {Array.from({ length: 12 }, (_, i) => (
+              {Array.from({ length: curriculum.length }, (_, i) => (
                 <th key={i}>C{i + 1}</th>
               ))}
               <th>Proyecto</th>
@@ -128,7 +129,7 @@ export default function AdminPanel({
                   <td>
                     {s.name} ({s.nickname})
                   </td>
-                  {s.progress.map((p, i) => (
+                  {s.progress.slice(0, curriculum.length).map((p, i) => (
                     <td key={i}>
                       <input type="checkbox" checked={p} onChange={() => toggleProgress(s, i)} />
                     </td>
@@ -146,7 +147,7 @@ export default function AdminPanel({
                 </tr>
                 {openFilesFor === s.id && (
                   <tr>
-                    <td colSpan={14} style={{ textAlign: "left", background: "rgba(255,255,255,0.02)" }}>
+                    <td colSpan={curriculum.length + 2} style={{ textAlign: "left", background: "rgba(255,255,255,0.02)" }}>
                       {!filesByStudent[s.id] && <span className="level-desc">cargando…</span>}
                       {filesByStudent[s.id]?.length === 0 && (
                         <span className="level-desc">Todavía no subió archivos.</span>
@@ -173,7 +174,7 @@ export default function AdminPanel({
             ))}
             {!loading && students.length === 0 && (
               <tr>
-                <td colSpan={14} className="level-desc" style={{ textAlign: "center", padding: 20 }}>
+                <td colSpan={curriculum.length + 2} className="level-desc" style={{ textAlign: "center", padding: 20 }}>
                   Todavía no hay estudiantes cargados.
                 </td>
               </tr>

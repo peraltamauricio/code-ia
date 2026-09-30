@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { curriculum } from "@/lib/curriculum";
 
 export default function Info() {
   return (
@@ -11,7 +12,7 @@ export default function Info() {
         <div className="info-grid reveal">
           <div className="info-card panel">
             <div className="ic">DURACIÓN</div>
-            <h4>12 × 1h45</h4>
+            <h4>{curriculum.length} × 1h45</h4>
             <p>Clases presenciales, de principio a fin</p>
           </div>
           <div className="info-card panel">

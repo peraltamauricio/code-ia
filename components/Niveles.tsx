@@ -2,21 +2,21 @@ import type { CSSProperties } from "react";
 
 const items = [
   {
-    tag: "CLASE 03",
+    tag: "CLASE 02",
     icon: "</>",
     title: "HTML",
     desc: "Estructura de una página: títulos, párrafos, imágenes, listas y links. Se la pedimos a la IA y la explicamos línea por línea.",
     xp: "entregable: 1ª página .html",
   },
   {
-    tag: "CLASE 04",
+    tag: "CLASE 03",
     icon: "{ }",
     title: "CSS",
     desc: 'Vocabulario visual para prompts: paleta, tipografía, espaciado. Le pedimos a la IA "modo diseñador" y elegimos variantes.',
     xp: "entregable: diseño propio",
   },
   {
-    tag: "CLASE 05",
+    tag: "CLASE 04",
     icon: "ƒ()",
     title: "JavaScript",
     desc: "Interactividad simple: botones, temas claro/oscuro, formularios que validan. Primer contacto con debugging.",

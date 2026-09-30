@@ -1,10 +1,12 @@
+import { curriculum } from "@/lib/curriculum";
+
 export default function StatusBar() {
   return (
     <section className="section" style={{ paddingTop: 0, borderTop: "none" }}>
       <div className="wrap">
         <div className="status-bar reveal">
           <div className="status-item">
-            <div className="val" data-count-to={12}>
+            <div className="val" data-count-to={curriculum.length}>
               0
             </div>
             <div className="lbl">CLASES</div>

@@ -9,7 +9,7 @@ create table if not exists profiles (
   nickname text unique not null,
   name text not null,
   role text not null default 'student' check (role in ('student','admin')),
-  progress boolean[] not null default array_fill(false, array[12]),
+  progress boolean[] not null default array_fill(false, array[11]),
   created_at timestamptz not null default now()
 );
 

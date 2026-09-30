@@ -25,7 +25,7 @@ export const curriculum: ClassSession[] = [
       "¿Qué es programar? Dar instrucciones claras a una máquina; con IA, esas instrucciones pueden empezar en lenguaje natural.",
       "¿Qué es la IA generativa? Diferencia entre un modelo de lenguaje (Claude, ChatGPT, Gemini) y un buscador.",
       "Mitos a derribar: \"hay que ser bueno en matemática\", \"hay que memorizar código\", \"la IA programa sola sin que yo entienda nada\".",
-      "Presentación del recorrido de las 12 clases y del proyecto final.",
+      "Presentación del recorrido de las 11 clases y del proyecto final.",
     ],
     practica: [
       "Creación de cuentas personales: Claude, ChatGPT, Gemini (versión gratuita).",
@@ -44,32 +44,6 @@ export const curriculum: ClassSession[] = [
   },
   {
     n: 2,
-    title: "El arte del prompt aplicado a código",
-    objetivo: "Aprender a escribir prompts efectivos para generar y modificar código.",
-    teoria: [
-      "Anatomía de un buen prompt técnico: contexto + objetivo + restricciones + formato de salida.",
-      "Pedir \"hacé una página\" vs. pedir con detalle (público, estilo, secciones, tecnología).",
-      "Iterar sobre una respuesta: pedir cambios puntuales sin reescribir todo el prompt.",
-      "Comparativa rápida: Claude, ChatGPT y Gemini para tareas de código, sin declarar un \"ganador\" absoluto.",
-    ],
-    practica: [
-      "Ejercicio de prompts \"malos vs. buenos\" sobre un mismo pedido.",
-      "Pedirle a una IA un botón HTML simple, e iterar: color, tamaño, texto, con prompts sucesivos.",
-    ],
-    entregable: "Bitácora con 5 prompts propios y el resultado obtenido de cada uno.",
-    desafio:
-      "Elegir un tema cotidiano y pedirle a las tres IAs que lo expliquen en 3 líneas. Comparar cuál fue más clara.",
-    promptDemo: "hacé un botón HTML... ahora hacelo violeta y más grande",
-    aiReply: "Listo, dos versiones: el botón base y la variante violeta con padding más grande.",
-    tool: "Las 3 IAs",
-    toolNote: "Último día comparando las tres: desde la próxima clase elegimos una IA de cabecera.",
-    vscode: [
-      "Abrir VS Code y crear una carpeta nueva para el taller.",
-      "Guardar ahí la bitácora de prompts en un archivo de texto.",
-    ],
-  },
-  {
-    n: 3,
     title: "Primeros pasos con HTML asistido por IA",
     objetivo: "Entender la estructura básica de una página web y generarla con ayuda de IA.",
     teoria: [
@@ -87,7 +61,7 @@ export const curriculum: ClassSession[] = [
     promptDemo: "generame una landing de presentación personal, con foto, bio y contacto",
     aiReply: "Acá tenés el HTML completo y comentado, con 3 secciones: header, sobre mí y contacto.",
     tool: "ChatGPT",
-    toolNote: "ChatGPT es la IA de cabecera para consultas de código (la Clase 4 usamos Gemini).",
+    toolNote: "ChatGPT es la IA de cabecera para consultas de código (la Clase 3 usamos Gemini).",
     vscode: [
       "Crear un archivo index.html dentro de la carpeta del taller.",
       "Pegar el código que te dio la IA y guardar con Ctrl+S.",
@@ -95,7 +69,7 @@ export const curriculum: ClassSession[] = [
     ],
   },
   {
-    n: 4,
+    n: 3,
     title: "Estilos con CSS: dándole identidad visual al sitio",
     objetivo: "Aprender a describir estilo visual en prompts y aplicar CSS generado por IA.",
     teoria: [
@@ -104,7 +78,7 @@ export const curriculum: ClassSession[] = [
       "Pedirle a la IA \"modo diseñador\": generar 2-3 variantes de estilo para elegir.",
     ],
     practica: [
-      "Tomar la página de la Clase 3 y pedirle a Gemini que la rediseñe con una estética elegida.",
+      "Tomar la página de la Clase 2 y pedirle a Gemini que la rediseñe con una estética elegida.",
       "Ajustar detalles con prompts puntuales (colores, márgenes, tipografía).",
     ],
     entregable: "Página personal con diseño propio aplicado (HTML + CSS).",
@@ -120,7 +94,7 @@ export const curriculum: ClassSession[] = [
     ],
   },
   {
-    n: 5,
+    n: 4,
     title: "Interactividad básica con JavaScript",
     objetivo: "Incorporar comportamiento dinámico simple a la página usando IA.",
     teoria: [
@@ -143,7 +117,7 @@ export const curriculum: ClassSession[] = [
     ],
   },
   {
-    n: 6,
+    n: 5,
     title: "Pensar como desarrollador/a: descomponer un proyecto",
     objetivo: "Aprender a planificar un proyecto antes de programarlo, con y sin IA.",
     teoria: [
@@ -164,9 +138,9 @@ export const curriculum: ClassSession[] = [
     vscode: ["Crear la carpeta del proyecto final con subcarpetas css/, js/ e img/."],
   },
   {
-    n: 7,
+    n: 6,
     title: "Construyendo el primer proyecto completo (parte 1)",
-    objetivo: "Empezar a construir el proyecto final siguiendo el plan de la Clase 6.",
+    objetivo: "Empezar a construir el proyecto final siguiendo el plan de la Clase 5.",
     teoria: [
       "Organización de archivos de un proyecto (carpetas, nombres, estructura mínima).",
       "Prompting \"por partes\": pedir el proyecto sección por sección en vez de todo junto.",
@@ -187,7 +161,7 @@ export const curriculum: ClassSession[] = [
     ],
   },
   {
-    n: 8,
+    n: 7,
     title: "Construyendo el proyecto completo (parte 2): formularios y datos",
     objetivo: "Sumar funcionalidades más avanzadas: formularios y conexión con datos externos simples.",
     teoria: [
@@ -204,14 +178,14 @@ export const curriculum: ClassSession[] = [
     promptDemo: "agregá un formulario de contacto con validación básica",
     aiReply: "Sumé nombre, email y mensaje, con validación de email antes de poder enviar.",
     tool: "ChatGPT",
-    toolNote: "Última clase con ChatGPT como IA de cabecera: de la Clase 9 en adelante pasamos a Claude.",
+    toolNote: "Última clase con ChatGPT como IA de cabecera: de la Clase 8 en adelante pasamos a Claude.",
     vscode: [
       "Editar el formulario dentro del HTML del proyecto.",
       "Probar el envío en el navegador y revisar la consola (F12) ante errores.",
     ],
   },
   {
-    n: 9,
+    n: 8,
     title: "Debugging: pensar como desarrollador/a frente a un error",
     objetivo: "Perder el miedo al error. Diagnosticar y corregir problemas con ayuda de IA, sin depender ciegamente de ella.",
     teoria: [
@@ -236,7 +210,7 @@ export const curriculum: ClassSession[] = [
     ],
   },
   {
-    n: 10,
+    n: 9,
     title: "Pulido final: diseño, contenido y revisión",
     objetivo: "Dejar el proyecto final terminado a nivel de contenido, diseño y funcionalidad.",
     teoria: [
@@ -259,7 +233,7 @@ export const curriculum: ClassSession[] = [
     ],
   },
   {
-    n: 11,
+    n: 10,
     title: "Deploy: publicando el proyecto en internet",
     objetivo: "Aprender a publicar (deployar) un proyecto para que esté disponible online con un link propio.",
     teoria: [
@@ -284,7 +258,7 @@ export const curriculum: ClassSession[] = [
     ],
   },
   {
-    n: 12,
+    n: 11,
     title: "Presentación final y próximos pasos",
     objetivo: "Cerrar el taller compartiendo los proyectos y dejando un camino claro para seguir aprendiendo.",
     teoria: [

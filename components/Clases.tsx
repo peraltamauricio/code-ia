@@ -5,17 +5,16 @@ import { curriculum, AiTool } from "@/lib/curriculum";
 
 const ICONS: Record<number, string> = {
   1: "👋",
-  2: "💬",
-  3: "</>",
-  4: "🎨",
-  5: "⚡",
-  6: "🧩",
-  7: "🏗️",
-  8: "📋",
-  9: "🐛",
-  10: "✨",
-  11: "🚀",
-  12: "🎤",
+  2: "</>",
+  3: "🎨",
+  4: "⚡",
+  5: "🧩",
+  6: "🏗️",
+  7: "📋",
+  8: "🐛",
+  9: "✨",
+  10: "🚀",
+  11: "🎤",
 };
 
 const TOOL_META: Record<AiTool, { color: string; short: string }> = {
@@ -80,7 +79,9 @@ export default function Clases() {
           <div className="class-detail-head">
             <span className="class-detail-icon">{ICONS[current.n]}</span>
             <div style={{ flex: 1 }}>
-              <span className="level-tag">CLASE {String(current.n).padStart(2, "0")} DE 12</span>
+              <span className="level-tag">
+                CLASE {String(current.n).padStart(2, "0")} DE {curriculum.length}
+              </span>
               <h3 style={{ fontSize: 19, margin: "4px 0 0" }}>{current.title}</h3>
             </div>
             <span
@@ -190,8 +191,8 @@ export default function Clases() {
             <button
               type="button"
               className="btn btn-solid"
-              disabled={selected === 12}
-              onClick={() => setSelected((n) => Math.min(12, n + 1))}
+              disabled={selected === curriculum.length}
+              onClick={() => setSelected((n) => Math.min(curriculum.length, n + 1))}
             >
               siguiente →
             </button>

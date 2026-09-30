@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { supabase, Profile } from "@/lib/supabaseClient";
+import { curriculum } from "@/lib/curriculum";
 
 type ProjectFile = { name: string; url: string; updatedAt?: string | null };
 
@@ -16,7 +17,8 @@ export default function StudentPanel({
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
-  const done = profile.progress.filter(Boolean).length;
+  const progress = profile.progress.slice(0, curriculum.length);
+  const done = progress.filter(Boolean).length;
 
   const loadFiles = useCallback(async () => {
     if (!supabase) return;
@@ -73,10 +75,10 @@ export default function StudentPanel({
       </div>
 
       <p className="cta-note" style={{ marginTop: 0 }}>
-        {done} de 12 clases completadas
+        {done} de {curriculum.length} clases completadas
       </p>
       <div className="progress-grid">
-        {profile.progress.map((p, i) => (
+        {progress.map((p, i) => (
           <div key={i} className={`progress-chip${p ? " done" : ""}`}>
             C{i + 1}
           </div>
