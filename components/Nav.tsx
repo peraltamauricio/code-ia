@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/#niveles", label: "niveles" },
   { href: "/#clases", label: "clases" },
   { href: "/#metodo", label: "método" },
+  { href: "/guia", label: "guía" },
   { href: "/alumnos", label: "alumnos" },
 ];
 
