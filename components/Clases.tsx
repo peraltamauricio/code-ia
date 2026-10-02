@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { curriculum, AiTool } from "@/lib/curriculum";
+import { curriculum, isUnlocked, AiTool } from "@/lib/curriculum";
 
 const ICONS: Record<number, string> = {
   1: "👋",
@@ -27,6 +27,7 @@ const TOOL_META: Record<AiTool, { color: string; short: string }> = {
 export default function Clases() {
   const [selected, setSelected] = useState(1);
   const current = curriculum.find((c) => c.n === selected)!;
+  const unlocked = isUnlocked(current.n);
 
   return (
     <section className="section" id="clases">
@@ -46,10 +47,12 @@ export default function Clases() {
               key={c.n}
               type="button"
               onClick={() => setSelected(c.n)}
-              className={`class-btn panel${c.n === selected ? " is-active" : ""}`}
+              className={`class-btn panel${c.n === selected ? " is-active" : ""}${
+                isUnlocked(c.n) ? "" : " is-locked"
+              }`}
             >
               <span className="class-btn-top">
-                <span className="class-btn-icon">{ICONS[c.n]}</span>
+                <span className="class-btn-icon">{isUnlocked(c.n) ? ICONS[c.n] : "🔒"}</span>
                 <span className="class-btn-num">C{String(c.n).padStart(2, "0")}</span>
               </span>
               <span className="class-btn-title">{c.title}</span>
@@ -93,6 +96,14 @@ export default function Clases() {
             </span>
           </div>
 
+          {!unlocked ? (
+            <div className="class-locked">
+              <span className="class-locked-icon">🔒</span>
+              <h4>Esta clase todavía no está habilitada</h4>
+              <p>Tus talleristas la van a abrir cuando llegue el momento. ¡Pronto!</p>
+            </div>
+          ) : (
+            <>
           <blockquote className="class-objetivo">{current.objetivo}</blockquote>
           {current.toolNote && <p className="tool-note">💡 {current.toolNote}</p>}
 
@@ -177,6 +188,8 @@ export default function Clases() {
                 La Clase 1 es rompehielos: el primer desafío arranca en la Clase 2.
               </p>
             </div>
+          )}
+            </>
           )}
 
           <div className="class-detail-nav">

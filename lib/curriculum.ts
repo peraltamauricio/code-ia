@@ -15,6 +15,11 @@ export type ClassSession = {
   vscode: string[];
 };
 
+// Para habilitar una clase, agregá su número acá.
+export const UNLOCKED_CLASSES = [1, 2];
+
+export const isUnlocked = (n: number) => UNLOCKED_CLASSES.includes(n);
+
 export const curriculum: ClassSession[] = [
   {
     n: 1,
