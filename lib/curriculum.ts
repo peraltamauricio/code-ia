@@ -16,7 +16,7 @@ export type ClassSession = {
 };
 
 // Para habilitar una clase, agregá su número acá.
-export const UNLOCKED_CLASSES = [1, 2];
+export const UNLOCKED_CLASSES = [1, 2, 3, 4];
 
 export const isUnlocked = (n: number) => UNLOCKED_CLASSES.includes(n);
 
