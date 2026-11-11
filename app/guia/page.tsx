@@ -70,7 +70,7 @@ export default function GuiaPage() {
           <input
             type="text"
             className="guide-search"
-            placeholder={cat === "pasos" ? "Buscar (ej: netlify, imagen, botón)…" : "Buscar (ej: flexbox, botón, for)…"}
+            placeholder={cat === "pasos" ? "Buscar (ej: vercel, imagen, botón)…" : "Buscar (ej: flexbox, botón, for)…"}
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />

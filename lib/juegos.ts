@@ -67,6 +67,7 @@ const allQuiz: QuizQ[] = [
   { cat: "web", q: "¿Cuál prompt es mejor?", opts: ["\"Haceme una página tipo Pinterest de autos, con fondo oscuro\"", "\"página\"", "\"hola\""], ok: 0, why: "Mientras más claro digas qué querés, mejor responde." },
   { cat: "web", q: "¿Cómo se llama el archivo principal de una página?", opts: ["index.html", "hola.txt", "foto.jpg"], ok: 0, why: "index.html es el que se abre primero." },
   { cat: "web", q: "¿Qué es el proyecto final del taller?", opts: ["Un portfolio con todos mis proyectos", "Un video", "Un dibujo"], ok: 0, why: "Una página que junta la presentación, el Spotify, el Pinterest y más." },
+  { cat: "web", q: "¿Con qué vamos a publicar nuestra página en internet?", opts: ["Vercel", "Word", "Instagram"], ok: 0, why: "Vercel publica la página gratis con un link propio, como este sitio del taller." },
   { cat: "web", q: "¿Qué tecla abre las herramientas del navegador?", opts: ["F12", "F1", "Enter"], ok: 0, why: "F12. Ahí podés ver y probar el CSS en vivo." },
 
   // ---------- JavaScript (aparece cuando se habilita la Clase 7) ----------

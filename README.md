@@ -13,7 +13,7 @@ Sitio del taller **CODE +IA** (programación e inteligencia artificial para chic
 | `/` | Landing: hero con editor de código animado, "Los fundamentos", **Clases** (con candado), Programa, Método, Info, Talleristas |
 | `/portal` | Login por nickname + contraseña. Alumno: ve su progreso y sube proyectos. Admin (Mauri/Siro): tilda progreso, da de alta alumnos, ve los archivos de cada uno |
 | `/alumnos` | Galería pública "Páginas de alumnos" para que vean los padres en la muestra final |
-| `/guia` | Guías "Paso a paso" (proyecto, prompts, portfolio, Netlify, GitHub Pages, errores) + machete de HTML, CSS y JS |
+| `/guia` | Guías "Paso a paso" (proyecto, prompts, portfolio, deploy con GitHub + Vercel, errores) + machete de HTML, CSS y JS |
 | `/jugar` | Zona de juegos: quiz con ranking del grupo, memotest, cazá el bug y editor en vivo |
 | `/api/create-student` | Endpoint de servidor (usa la service role) para que un admin cree cuentas |
 
