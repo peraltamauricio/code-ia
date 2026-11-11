@@ -20,7 +20,7 @@ Sitio del taller **CODE +IA** (programación e inteligencia artificial para chic
 ## Clases y candado
 
 - El contenido está en [lib/curriculum.ts](lib/curriculum.ts): 11 clases (1 HTML/presentación, 2 CSS, 3-4 Spotify, 5-6 Pinterest, 7 JavaScript, 8 Juego JS, 9 Portfolio, 10 Deploy, 11 Muestra final).
-- **Habilitar una clase:** agregar su número a `UNLOCKED_CLASSES` en ese mismo archivo (hoy: `[1, 2, 3, 4, 5, 6]`), commit y push. La primera clase no habilitada se muestra sola como **"Próxima clase"** (adelanto en la landing); el resto muestra candado. Al habilitar la 7, aparecen también las preguntas y bugs de JavaScript en `/jugar`.
+- **Habilitar una clase:** agregar su número a `UNLOCKED_CLASSES` en ese mismo archivo (hoy: `[1, 2, 3, 4, 5, 6, 7]`), commit y push. La primera clase no habilitada se muestra sola como **"Próxima clase"** (adelanto en la landing); el resto muestra candado. Al habilitar la 7, aparecen también las preguntas y bugs de JavaScript en `/jugar`.
 - IA recomendada por clase: 1 las tres · 2, 4, 5, 6, 7 ChatGPT · 3 Gemini · 8 a 11 Claude.
 - Casi todo el sitio toma la cantidad de clases de `curriculum.length`. Lo único con números de clase escritos a mano: `components/Niveles.tsx` (etiquetas "CLASE 02/03/04"), `components/Programa.tsx` (rangos) y las notas `toolNote` dentro de `curriculum.ts`. Si se mueven clases, revisar eso.
 
