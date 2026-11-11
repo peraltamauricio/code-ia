@@ -5,6 +5,163 @@ export type Guia = { id: string; icon: string; title: string; when: string; intr
 
 export const guias: Guia[] = [
   {
+    id: "pinterest-js",
+    icon: "❤️",
+    title: "Corazones y modo oscuro en tu Pinterest",
+    when: "Clase 7 · JavaScript",
+    intro:
+      "Vamos a hacer que tu Pinterest HAGA cosas: un corazón en cada imagen que se pinta al tocarlo y un botón de modo oscuro. Es copiar, pegar y entender qué hace cada parte.",
+    pasos: [
+      {
+        t: "Abrí VS Code → Archivo → Abrir carpeta… y elegí la carpeta de tu Pinterest. A la izquierda tenés que ver tu index.html y tu style.css.",
+      },
+      {
+        t: "Creá un archivo nuevo: clic derecho en el panel de la izquierda → Nuevo archivo → escribí script.js y Enter.",
+        tip: "Si ChatGPT ya te había dado un script.js, usá ese y pegá el código nuevo al final.",
+      },
+      {
+        t: "Conectá el script.js al HTML. Abrí index.html, bajá hasta el final y pegá esta línea justo ANTES de </body>:",
+        code: `  <script src="script.js"></script>\n</body>`,
+      },
+      {
+        t: "En el mismo index.html, pegá el botón de modo oscuro justo DESPUÉS de <body>:",
+        code: `<body>\n  <button id="modo-oscuro">🌙 Modo oscuro</button>`,
+      },
+      {
+        t: "Abrí script.js y pegá todo esto. Son 3 ideas: BUSCAR las imágenes, ESCUCHAR el click y HACER algo (cambiar el corazón).",
+        code: `// 1. BUSCAR todas las imágenes de la página
+const imagenes = document.querySelectorAll("img");
+
+// A cada imagen le agregamos un corazón
+imagenes.forEach((imagen) => {
+  const caja = imagen.parentElement;
+  caja.style.position = "relative";
+
+  const corazon = document.createElement("button");
+  corazon.textContent = "🤍";
+  corazon.className = "corazon";
+  caja.appendChild(corazon);
+
+  // 2. ESCUCHAR el click en el corazón
+  corazon.addEventListener("click", (evento) => {
+    evento.preventDefault();
+
+    // 3. HACER algo: si está blanco lo pinto, si está rojo lo despinto
+    if (corazon.textContent === "🤍") {
+      corazon.textContent = "❤️";
+    } else {
+      corazon.textContent = "🤍";
+    }
+  });
+});
+
+// MODO OSCURO: buscar el botón, escuchar el click, prender/apagar
+const botonOscuro = document.querySelector("#modo-oscuro");
+
+botonOscuro.addEventListener("click", () => {
+  document.body.classList.toggle("oscuro");
+});`,
+      },
+      {
+        t: "Abrí style.css, bajá hasta el final y pegá esto (es cómo se VEN el corazón, el botón y el modo oscuro):",
+        code: `/* Corazón arriba a la derecha de cada imagen */
+.corazon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 5;
+}
+.corazon:hover {
+  transform: scale(1.15);
+}
+
+/* Cómo se ve la página en modo oscuro */
+body.oscuro {
+  background-color: #111;
+  color: white;
+}
+
+/* Botón de modo oscuro, fijo abajo a la derecha */
+#modo-oscuro {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 999px;
+  background: #e60023;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}`,
+      },
+      {
+        t: "Guardá los 3 archivos (Ctrl+S en cada uno), abrí index.html en el navegador y refrescá con F5. Tocá un corazón: se pone rojo ❤️. Tocá \"Modo oscuro\": se oscurece la página.",
+      },
+      {
+        t: "¿El logo o la foto de perfil también tienen corazón? Buscá en tu index.html cómo se llama la clase de tus tarjetas (por ejemplo class=\"pin\" o class=\"card\") y cambiá la primera línea del script así:",
+        code: `const imagenes = document.querySelectorAll(".pin img");`,
+        tip: "Cambiá pin por el nombre de TU clase, con el punto adelante, igual que en el CSS.",
+      },
+      {
+        t: "¿No aparece nada? Revisá: 1) que guardaste los 3 archivos, 2) que la línea <script src=\"script.js\"> está antes de </body>, 3) que el archivo se llama script.js (todo en minúscula). Si sigue sin andar, apretá F12 → Console y leé el error en rojo.",
+        tip: "Copiale el error a ChatGPT junto con tu script.js y pedile: \"explicame qué está mal como si tuviera 14 años\".",
+      },
+      {
+        t: "✍️ AHORA A MANO (sin copiar y pegar): una alerta. Primero la más simple: escribí esta línea al principio de script.js, guardá y refrescá. ¿Qué pasa al abrir la página?",
+        code: `alert("¡Bienvenido a mi Pinterest!");`,
+        tip: "alert muestra un cartelito del navegador. Cambiale el texto y probá de nuevo.",
+      },
+      {
+        t: "✍️ Ahora que la alerta salga al tocar un botón. Escribí a mano el botón en index.html (debajo del de modo oscuro):",
+        code: `<button id="saludo">👋 Saludar</button>`,
+      },
+      {
+        t: "✍️ Y en script.js, a mano, las 3 ideas de siempre: BUSCAR el botón, ESCUCHAR el click, HACER algo (la alerta). Cuando funcione, borrá el alert del principio así no sale cada vez que abrís la página.",
+        code: `const saludo = document.querySelector("#saludo");
+
+saludo.addEventListener("click", () => {
+  alert("¡Hola! Gracias por visitar mi Pinterest");
+});`,
+        tip: "Ojo con lo que más se equivoca al escribir a mano: comillas, paréntesis y llaves que abren y cierran, y que el id del HTML (saludo) sea igual al del querySelector (#saludo).",
+      },
+      {
+        t: "DESAFÍO: un contador de me gusta. Pegá esto en index.html, debajo del botón de modo oscuro:",
+        code: `<p id="contador">❤️ 0 me gusta</p>`,
+      },
+      {
+        t: "Y en script.js, reemplazá el pedazo del click del corazón por este (suma 1 al pintar y resta 1 al despintar):",
+        code: `let meGusta = 0;
+const contador = document.querySelector("#contador");
+
+// ... y adentro del forEach, el click queda así:
+  corazon.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    if (corazon.textContent === "🤍") {
+      corazon.textContent = "❤️";
+      meGusta++;
+    } else {
+      corazon.textContent = "🤍";
+      meGusta--;
+    }
+    contador.textContent = "❤️ " + meGusta + " me gusta";
+  });`,
+        tip: "Las dos primeras líneas (let meGusta y const contador) van al principio del script, arriba de todo.",
+      },
+      {
+        t: "BONUS: hacé lo mismo en tu Spotify. Con el mismo script, cada tapa de playlist tiene su corazón. ¡Probalo!",
+      },
+    ],
+  },
+  {
     id: "proyecto",
     icon: "📁",
     title: "Arrancar un proyecto en VS Code",
