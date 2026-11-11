@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import StatusBar from "@/components/StatusBar";
 import Niveles from "@/components/Niveles";
+import ProximaClase from "@/components/ProximaClase";
 import Clases from "@/components/Clases";
 import Programa from "@/components/Programa";
 import Metodo from "@/components/Metodo";
@@ -19,6 +20,7 @@ export default function Home() {
       <Nav />
       <Hero />
       <StatusBar />
+      <ProximaClase />
       <Niveles />
       <Clases />
       <Programa />

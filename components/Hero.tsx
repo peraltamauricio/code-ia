@@ -25,9 +25,12 @@ export default function Hero() {
             <Link className="btn btn-solid spotlight" href="/portal">
               Entrar al portal
             </Link>
-            <a className="btn" href="#clases">
-              Ver clases
+            <a className="btn" href="#proxima">
+              Próxima clase
             </a>
+            <Link className="btn" href="/jugar">
+              🎮 Jugar
+            </Link>
           </div>
         </div>
         <div className="code-demo-stack" aria-hidden="true">

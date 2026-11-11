@@ -1,12 +1,12 @@
 const items = [
-  { num: "[01]", title: "PERDER EL MIEDO", desc: "Primer contacto con la IA generativa: qué es, qué mitos derribar y qué vamos a construir." },
-  { num: "[02-04]", title: "FUNDAMENTOS", desc: "HTML, CSS y JavaScript asistidos por IA, paso a paso." },
-  { num: "[05]", title: "PLANIFICAR", desc: 'Se define el proyecto final y su plan de construcción con la IA como "arquitecta".' },
-  { num: "[06-07]", title: "CONSTRUIR", desc: "Estructura del proyecto, secciones, formularios y datos externos simples." },
-  { num: "[08]", title: "DEBUGGING", desc: "Diagnosticar y corregir errores con IA, sin depender ciegamente de ella." },
-  { num: "[09]", title: "PULIDO", desc: "Checklist de calidad: contenido, diseño, responsive, accesibilidad básica." },
-  { num: "[10]", title: "DEPLOY", desc: "Git, GitHub y publicación del proyecto con un link propio y funcionando." },
-  { num: "[11]", title: "PRESENTACIÓN", desc: "Cada participante muestra su proyecto publicado y qué aprendió en el camino." },
+  { num: "[01]", title: "PRIMERA PÁGINA", desc: "Perderle el miedo a la tecnología y armar una presentación en HTML." },
+  { num: "[02]", title: "CSS BÁSICO", desc: "Colores, tipografías y espacios: la presentación con estilo propio." },
+  { num: "[03-04]", title: "SPOTIFY", desc: "La IA arma la página, nosotros la entendemos y la hacemos nuestra." },
+  { num: "[05-06]", title: "PINTEREST", desc: "Grillas, tarjetas, hover y responsive para el celular." },
+  { num: "[07]", title: "JAVASCRIPT", desc: "Botones que hacen cosas: me gusta, play/pausa, modo oscuro." },
+  { num: "[08]", title: "MI JUEGO", desc: "Un mini juego propio con variables, if/else y azar." },
+  { num: "[09-10]", title: "PORTFOLIO + DEPLOY", desc: "Juntar todos los proyectos en un portfolio y publicarlo en internet." },
+  { num: "[11]", title: "MUESTRA FINAL", desc: "Cada participante presenta su portfolio online a la familia." },
 ];
 
 export default function Programa() {

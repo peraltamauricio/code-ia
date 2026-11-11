@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { curriculum, isUnlocked, AiTool } from "@/lib/curriculum";
+import { curriculum, isUnlocked, isVisible, nextClass, AiTool } from "@/lib/curriculum";
 
 const ICONS: Record<number, string> = {
   1: "👋",
-  2: "</>",
-  3: "🎨",
-  4: "⚡",
-  5: "🧩",
-  6: "🏗️",
-  7: "📋",
-  8: "🐛",
-  9: "✨",
+  2: "🎨",
+  3: "🎧",
+  4: "🎶",
+  5: "📌",
+  6: "✨",
+  7: "⚡",
+  8: "🎮",
+  9: "💼",
   10: "🚀",
   11: "🎤",
 };
@@ -25,9 +25,10 @@ const TOOL_META: Record<AiTool, { color: string; short: string }> = {
 };
 
 export default function Clases() {
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState(nextClass?.n ?? 1);
   const current = curriculum.find((c) => c.n === selected)!;
-  const unlocked = isUnlocked(current.n);
+  const unlocked = isVisible(current.n);
+  const isNext = nextClass?.n === current.n;
 
   return (
     <section className="section" id="clases">
@@ -48,11 +49,12 @@ export default function Clases() {
               type="button"
               onClick={() => setSelected(c.n)}
               className={`class-btn panel${c.n === selected ? " is-active" : ""}${
-                isUnlocked(c.n) ? "" : " is-locked"
-              }`}
+                isVisible(c.n) ? "" : " is-locked"
+              }${nextClass?.n === c.n ? " is-next" : ""}`}
             >
+              {nextClass?.n === c.n && <span className="class-btn-next">próxima</span>}
               <span className="class-btn-top">
-                <span className="class-btn-icon">{isUnlocked(c.n) ? ICONS[c.n] : "🔒"}</span>
+                <span className="class-btn-icon">{isVisible(c.n) ? ICONS[c.n] : "🔒"}</span>
                 <span className="class-btn-num">C{String(c.n).padStart(2, "0")}</span>
               </span>
               <span className="class-btn-title">{c.title}</span>
@@ -84,6 +86,8 @@ export default function Clases() {
             <div style={{ flex: 1 }}>
               <span className="level-tag">
                 CLASE {String(current.n).padStart(2, "0")} DE {curriculum.length}
+                {isNext && " · PRÓXIMA CLASE (ADELANTO)"}
+                {isUnlocked(current.n) && current.n < (nextClass?.n ?? Infinity) && " · ✓ YA LA HICIMOS"}
               </span>
               <h3 style={{ fontSize: 19, margin: "4px 0 0" }}>{current.title}</h3>
             </div>

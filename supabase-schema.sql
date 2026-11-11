@@ -90,3 +90,40 @@ create policy "projects_delete_own_folder"
 -- Una vez que existe al menos un admin, el resto de los estudiantes
 -- se crean directamente desde el panel del taller (/portal), sin
 -- volver a tocar SQL.
+
+-- ---------------------------------------------------------------
+-- 4) Ranking del quiz (/jugar) — correr una sola vez
+-- ---------------------------------------------------------------
+create table if not exists quiz_scores (
+  id bigint generated always as identity primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  nickname text not null,
+  score int not null check (score between 0 and 4000),
+  hits int not null default 0,
+  total int not null default 10,
+  cat text not null default 'todo',
+  created_at timestamptz not null default now()
+);
+
+alter table quiz_scores enable row level security;
+
+-- El ranking lo puede ver cualquiera (solo nicknames y puntos).
+create policy "quiz_scores_select_all"
+  on quiz_scores for select
+  to anon, authenticated
+  using (true);
+
+-- Cada alumno solo puede guardar partidas a su nombre.
+create policy "quiz_scores_insert_own"
+  on quiz_scores for insert
+  to authenticated
+  with check (
+    user_id = auth.uid()
+    and nickname = (select p.nickname from profiles p where p.id = auth.uid())
+  );
+
+-- Los admins pueden borrar partidas (por ejemplo, para reiniciar el ranking).
+create policy "quiz_scores_delete_admin"
+  on quiz_scores for delete
+  to authenticated
+  using (exists (select 1 from profiles me where me.id = auth.uid() and me.role = 'admin'));

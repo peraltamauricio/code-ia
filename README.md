@@ -13,15 +13,23 @@ Sitio del taller **CODE +IA** (programación e inteligencia artificial para chic
 | `/` | Landing: hero con editor de código animado, "Los fundamentos", **Clases** (con candado), Programa, Método, Info, Talleristas |
 | `/portal` | Login por nickname + contraseña. Alumno: ve su progreso y sube proyectos. Admin (Mauri/Siro): tilda progreso, da de alta alumnos, ve los archivos de cada uno |
 | `/alumnos` | Galería pública "Páginas de alumnos" para que vean los padres en la muestra final |
-| `/guia` | Machete de HTML, CSS y JavaScript (pestañas + buscador) |
+| `/guia` | Guías "Paso a paso" (proyecto, prompts, portfolio, Netlify, GitHub Pages, errores) + machete de HTML, CSS y JS |
+| `/jugar` | Zona de juegos: quiz con ranking del grupo, memotest, cazá el bug y editor en vivo |
 | `/api/create-student` | Endpoint de servidor (usa la service role) para que un admin cree cuentas |
 
 ## Clases y candado
 
-- El contenido está en [lib/curriculum.ts](lib/curriculum.ts): 11 clases (1 Bienvenida, 2 HTML, 3 CSS, 4 JavaScript, 5 Planificar, 6-7 Construir, 8 Debugging, 9 Pulido, 10 Deploy, 11 Presentación).
-- **Habilitar una clase:** agregar su número a `UNLOCKED_CLASSES` en ese mismo archivo (hoy: `[1, 2, 3, 4]`), commit y push. Las no habilitadas muestran un candado y "todavía no está habilitada".
+- El contenido está en [lib/curriculum.ts](lib/curriculum.ts): 11 clases (1 HTML/presentación, 2 CSS, 3-4 Spotify, 5-6 Pinterest, 7 JavaScript, 8 Juego JS, 9 Portfolio, 10 Deploy, 11 Muestra final).
+- **Habilitar una clase:** agregar su número a `UNLOCKED_CLASSES` en ese mismo archivo (hoy: `[1, 2, 3, 4, 5, 6]`), commit y push. La primera clase no habilitada se muestra sola como **"Próxima clase"** (adelanto en la landing); el resto muestra candado. Al habilitar la 7, aparecen también las preguntas y bugs de JavaScript en `/jugar`.
 - IA recomendada por clase: 1 las tres · 2, 4, 5, 6, 7 ChatGPT · 3 Gemini · 8 a 11 Claude.
 - Casi todo el sitio toma la cantidad de clases de `curriculum.length`. Lo único con números de clase escritos a mano: `components/Niveles.tsx` (etiquetas "CLASE 02/03/04"), `components/Programa.tsx` (rangos) y las notas `toolNote` dentro de `curriculum.ts`. Si se mueven clases, revisar eso.
+
+## Ranking del quiz
+
+- Tabla `quiz_scores` (ver la sección 4 de [supabase-schema.sql](supabase-schema.sql)). Hay que correr **solo esa sección** una vez en el SQL Editor de Supabase.
+- Si el alumno entró al portal, al terminar el quiz su puntaje se guarda y aparece en "Ranking del grupo" (mejor puntaje de cada uno). Sin login juega como invitado.
+- Para reiniciar el ranking: `delete from quiz_scores;` en el SQL Editor.
+- El contenido de los juegos está en [lib/juegos.ts](lib/juegos.ts) y el de las guías en [lib/guias.ts](lib/guias.ts).
 
 ## Portal, alumnos y Supabase
 

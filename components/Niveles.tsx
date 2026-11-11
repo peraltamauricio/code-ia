@@ -2,25 +2,25 @@ import type { CSSProperties } from "react";
 
 const items = [
   {
-    tag: "CLASE 02",
+    tag: "CLASE 01",
     icon: "</>",
     title: "HTML",
-    desc: "Estructura de una página: títulos, párrafos, imágenes, listas y links. Se la pedimos a la IA y la explicamos línea por línea.",
-    xp: "entregable: 1ª página .html",
+    desc: "El esqueleto de la página: títulos, párrafos, imágenes y links. Arrancamos con una presentación sobre un tema propio.",
+    xp: "entregable: presentación",
   },
   {
-    tag: "CLASE 03",
+    tag: "CLASES 02-06",
     icon: "{ }",
     title: "CSS",
-    desc: 'Vocabulario visual para prompts: paleta, tipografía, espaciado. Le pedimos a la IA "modo diseñador" y elegimos variantes.',
-    xp: "entregable: diseño propio",
+    desc: "La ropa de la página: colores, letras, espacios, grillas y hover. Lo practicamos armando un Spotify y un Pinterest con IA.",
+    xp: "entregable: Spotify + Pinterest",
   },
   {
-    tag: "CLASE 04",
+    tag: "CLASES 07-08",
     icon: "ƒ()",
     title: "JavaScript",
-    desc: "Interactividad simple: botones, temas claro/oscuro, formularios que validan. Primer contacto con debugging.",
-    xp: "entregable: página interactiva",
+    desc: "Lo que hace la página: botones que funcionan, modo oscuro, me gusta y un mini juego propio.",
+    xp: "entregable: juego propio",
   },
 ];
 
@@ -32,7 +32,7 @@ export default function Niveles() {
           <span className="mono-tag">stack.core</span>
           <h2 className="section-title">Los fundamentos</h2>
           <p className="section-desc">
-            Tres tecnologías, tres clases, un mismo copiloto: la IA te ayuda a escribir, explicar
+            Tres tecnologías, un mismo copiloto: la IA te ayuda a escribir, explicar
             e iterar cada línea de código.
           </p>
         </div>
