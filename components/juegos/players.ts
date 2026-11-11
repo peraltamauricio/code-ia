@@ -45,14 +45,16 @@ export async function saveScore(p: Player, score: number, hits: number, total: n
   return !error;
 }
 
-/** El mejor puntaje de cada alumno, ordenado de mayor a menor. */
-export async function loadRanking(): Promise<ScoreRow[] | null> {
+/** El mejor puntaje de cada alumno, ordenado de mayor a menor. Con `since`, solo partidas desde esa fecha. */
+export async function loadRanking(since?: Date): Promise<ScoreRow[] | null> {
   if (!supabase) return null;
-  const { data, error } = await supabase
+  let query = supabase
     .from("quiz_scores")
     .select("nickname, score, hits, total, cat, created_at")
     .order("score", { ascending: false })
     .limit(500);
+  if (since) query = query.gte("created_at", since.toISOString());
+  const { data, error } = await query;
   if (error || !data) return null;
   const best = new Map<string, ScoreRow>();
   for (const row of data as ScoreRow[]) {

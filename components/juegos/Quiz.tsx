@@ -6,10 +6,13 @@ import Link from "next/link";
 import { readBest, saveBest, shuffle } from "./util";
 import { saveScore, usePlayer } from "./players";
 import Ranking from "./Ranking";
+import LiveBoard from "./LiveBoard";
+import { useLive } from "./live";
 
 const ROUND = 10;
 const SECONDS = 30;
 const BEST_KEY = "codeia-quiz-best";
+const NAME_KEY = "codeia-nombre";
 
 type Q = QuizQ & { order: number[] };
 
@@ -28,8 +31,37 @@ export default function Quiz() {
   const { player, ready } = usePlayer();
   const [saved, setSaved] = useState<"no" | "ok" | "error">("no");
   const [refresh, setRefresh] = useState(0);
+  // Nombre para la carrera en vivo: el nickname si entró al portal, si no el que escriba.
+  const [guestName, setGuestName] = useState("");
+  const [liveName, setLiveName] = useState<string | null>(null);
+  const live = useLive(liveName);
 
-  useEffect(() => setBest(readBest(BEST_KEY)), []);
+  useEffect(() => {
+    setBest(readBest(BEST_KEY));
+    try {
+      setGuestName(localStorage.getItem(NAME_KEY) ?? "");
+    } catch {
+      /* sin nombre guardado */
+    }
+  }, []);
+
+  const myName = player?.nickname ?? guestName.trim().toLowerCase().slice(0, 16);
+
+  // Cada vez que cambia algo de mi partida, se lo mando a la sala en vivo.
+  const { update } = live;
+  useEffect(() => {
+    if (!liveName || phase === "menu") return;
+    const answered = idx + (picked !== null ? 1 : 0);
+    update({
+      name: liveName,
+      score,
+      q: phase === "end" ? qs.length : answered,
+      total: qs.length,
+      streak,
+      done: phase === "end",
+      last: picked === null ? null : picked === qs[idx]?.ok ? "ok" : "bad",
+    });
+  }, [liveName, phase, score, idx, picked, streak, qs, update]);
 
   // Reloj de cada pregunta.
   useEffect(() => {
@@ -44,6 +76,15 @@ export default function Quiz() {
   }, [phase, picked, time]);
 
   function start() {
+    if (!myName) return;
+    if (!player) {
+      try {
+        localStorage.setItem(NAME_KEY, myName);
+      } catch {
+        /* no pasa nada */
+      }
+    }
+    setLiveName(myName);
     const pool = cat === "todo" ? quiz : quiz.filter((q) => q.cat === cat);
     const round = shuffle(pool)
       .slice(0, ROUND)
@@ -104,12 +145,20 @@ export default function Quiz() {
           <p className="game-player">
             {player ? (
               <>
-                Jugando como <b>{player.nickname}</b> · tus puntos van al ranking 🏆
+                Jugando como <b>{player.nickname}</b> · aparecés en la carrera en vivo 🏁
               </>
             ) : (
               <>
-                Jugás como invitado/a. <Link href="/portal" style={{ color: "var(--violet-soft)" }}>Entrá al portal</Link>{" "}
-                para competir en el ranking.
+                <input
+                  className="game-name"
+                  placeholder="Escribí tu nombre"
+                  maxLength={16}
+                  value={guestName}
+                  onChange={(e) => setGuestName(e.target.value)}
+                  aria-label="Tu nombre para la carrera en vivo"
+                />
+                <br />
+                o <Link href="/portal" style={{ color: "var(--violet-soft)" }}>entrá al portal</Link> con tu usuario.
               </>
             )}
           </p>
@@ -126,11 +175,13 @@ export default function Quiz() {
             </button>
           ))}
         </div>
-        <button type="button" className="btn btn-solid spotlight" onClick={start}>
+        <button type="button" className="btn btn-solid spotlight" onClick={start} disabled={!myName}>
           ¡Jugar!
         </button>
+        {ready && !myName && <p className="game-best">Escribí tu nombre para jugar</p>}
         {best !== null && <p className="game-best">🏆 Tu récord en esta compu: {best} puntos</p>}
       </div>
+      <LiveBoard players={live.players} connected={live.connected} me={liveName} />
       <Ranking me={player?.nickname} refreshKey={refresh} />
       </>
     );
@@ -156,13 +207,6 @@ export default function Quiz() {
         {record && <p className="game-record">¡Nuevo récord!</p>}
         {!record && best !== null && <p className="game-best">🏆 Tu récord: {best} puntos</p>}
         {saved === "ok" && <p className="game-player">✓ Guardado en el ranking como <b>{player?.nickname}</b></p>}
-        {saved === "error" && <p className="game-player">No se pudo guardar en el ranking (¿está activado?).</p>}
-        {ready && !player && (
-          <p className="game-player">
-            <Link href="/portal" style={{ color: "var(--violet-soft)" }}>Entrá al portal</Link> para que tus
-            puntos cuenten en el ranking.
-          </p>
-        )}
         <div className="game-row">
           <button type="button" className="btn btn-solid spotlight" onClick={start}>
             Jugar otra vez
@@ -172,6 +216,7 @@ export default function Quiz() {
           </button>
         </div>
       </div>
+      <LiveBoard players={live.players} connected={live.connected} me={liveName} />
       <Ranking me={player?.nickname} refreshKey={refresh} />
       </>
     );
@@ -180,6 +225,7 @@ export default function Quiz() {
   const q = qs[idx];
   const answered = picked !== null;
   return (
+    <>
     <div className="game-card panel">
       <div className="quiz-top">
         <span className="level-tag">
@@ -224,5 +270,7 @@ export default function Quiz() {
         </div>
       )}
     </div>
+    <LiveBoard players={live.players} connected={live.connected} me={liveName} max={8} />
+    </>
   );
 }

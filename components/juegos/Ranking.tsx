@@ -24,18 +24,18 @@ export default function Ranking({ me, refreshKey }: { me?: string; refreshKey: n
     load();
   }, [load, refreshKey]);
 
+  // Si la tabla del ranking histórico no existe (o no carga), no mostramos nada.
+  if (rows === null) return null;
+
   return (
     <div className="rank panel">
       <div className="rank-head">
-        <h3 className="rank-title">🏆 Ranking del grupo</h3>
+        <h3 className="rank-title">🏆 Mejores puntajes</h3>
         <button type="button" className="btn" style={{ padding: "8px 16px", fontSize: 12 }} onClick={load}>
           ↻ actualizar
         </button>
       </div>
       {rows === undefined && <p className="rank-empty">Cargando…</p>}
-      {rows === null && (
-        <p className="rank-empty">No se pudo cargar el ranking. Revisá la conexión o tocá actualizar.</p>
-      )}
       {rows && rows.length === 0 && (
         <p className="rank-empty">Nadie jugó todavía. ¡Sé el primero en el ranking!</p>
       )}

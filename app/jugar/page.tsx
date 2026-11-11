@@ -22,7 +22,7 @@ export default function JugarPage() {
   return (
     <>
       <div className="bg-grid" />
-      <SubNav links={[{ href: "/guia", label: "📖 guía" }]} />
+      <SubNav links={[{ href: "/ranking", label: "📺 pantalla en vivo" }, { href: "/guia", label: "📖 guía" }]} />
 
       <section className="section" style={{ borderTop: "none" }}>
         <div className="wrap">
@@ -30,8 +30,8 @@ export default function JugarPage() {
             <span className="mono-tag">zona.de.juegos</span>
             <h2 className="section-title">Repasá jugando</h2>
             <p className="section-desc">
-              HTML, CSS y JavaScript en modo juego. Tu récord se guarda en esta compu: ¿quién
-              del grupo saca más puntos?
+              HTML, CSS y JavaScript en modo juego. Poné tu nombre en el quiz y competí en vivo
+              con todo el grupo: ¿quién saca más puntos?
             </p>
           </div>
 
