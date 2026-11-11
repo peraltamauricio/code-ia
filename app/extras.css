@@ -1,5 +1,23 @@
 /* Estilos de: Próxima clase, zona de juegos (/jugar) y guías paso a paso (/guia). */
 
+/* Siempre oscuro: fondo negro aunque la compu esté en modo claro,
+   y los campos de formulario oscuros (sin el blanco del navegador). */
+html {
+  background: #0a0714;
+  color-scheme: dark;
+}
+input,
+textarea,
+select {
+  color-scheme: dark;
+  color: var(--ink);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-faint);
+}
+
 /* =====================================================================
    PRÓXIMA CLASE + CAMINO AL PORTFOLIO
    ===================================================================== */

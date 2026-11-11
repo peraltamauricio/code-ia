@@ -64,7 +64,7 @@ export default function StudentPanel({
   }
 
   return (
-    <div className="cta-panel panel reveal" style={{ maxWidth: 560, margin: "0 auto" }}>
+    <div className="cta-panel panel" style={{ maxWidth: 560, margin: "0 auto" }}>
       <div className="portal-topline">
         <span className="portal-who">
           Hola, <b>{profile.name}</b> 👋

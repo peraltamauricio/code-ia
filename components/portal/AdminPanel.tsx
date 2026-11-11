@@ -101,7 +101,7 @@ export default function AdminPanel({
   }
 
   return (
-    <div className="panel reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
+    <div className="panel" style={{ maxWidth: 900, margin: "0 auto" }}>
       <div className="portal-topline">
         <span className="portal-who">
           Panel de <b>{profile.name}</b>

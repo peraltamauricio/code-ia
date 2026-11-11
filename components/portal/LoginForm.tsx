@@ -28,7 +28,7 @@ export default function LoginForm({ onLoggedIn }: { onLoggedIn: () => void }) {
   }
 
   return (
-    <div className="cta-panel panel reveal" style={{ maxWidth: 400, margin: "0 auto" }}>
+    <div className="cta-panel panel" style={{ maxWidth: 400, margin: "0 auto" }}>
       <form className="portal-form" onSubmit={handleSubmit}>
         <input
           type="text"

@@ -80,7 +80,7 @@ export default async function AlumnosPage() {
           )}
 
           {published.length > 0 && (
-            <div className="class-grid reveal" style={{ marginBottom: pending.length ? 36 : 0 }}>
+            <div className="class-grid" style={{ marginBottom: pending.length ? 36 : 0 }}>
               {published.map((s) => (
                 <a
                   key={s.id}
@@ -112,7 +112,7 @@ export default async function AlumnosPage() {
               <div className="mono-tag" style={{ marginBottom: 14, justifyContent: "center", display: "flex" }}>
                 todavía sin publicar
               </div>
-              <div className="class-grid reveal">
+              <div className="class-grid">
                 {pending.map((s) => (
                   <div key={s.id} className="class-btn panel" style={{ opacity: 0.55, cursor: "default" }}>
                     <span className="class-btn-top">
