@@ -23,6 +23,7 @@ export default function AdminPanel({
   const [newPass, setNewPass] = useState("");
   const [addError, setAddError] = useState("");
   const [adding, setAdding] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   const loadStudents = useCallback(async () => {
     if (!supabase) return;
@@ -76,6 +77,33 @@ export default function AdminPanel({
     setFilesByStudent((prev) => ({ ...prev, [student.id]: list }));
   }
 
+  async function deleteStudent(student: Profile) {
+    if (!supabase) return;
+    const ok = confirm(
+      `¿Borrar la cuenta de ${student.name} (${student.nickname})?
+
+` +
+        "Se borran su usuario, su progreso y los archivos que subió. No se puede deshacer."
+    );
+    if (!ok) return;
+    setDeleting(student.id);
+    const { data: sessionData } = await supabase.auth.getSession();
+    const token = sessionData.session?.access_token;
+    const res = await fetch("/api/delete-student", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id: student.id }),
+    });
+    const json = await res.json().catch(() => ({}));
+    setDeleting(null);
+    if (!res.ok) {
+      alert("No se pudo borrar: " + (json.error || "error desconocido"));
+      return;
+    }
+    if (openFilesFor === student.id) setOpenFilesFor(null);
+    loadStudents();
+  }
+
   async function handleAddStudent(e: FormEvent) {
     e.preventDefault();
     if (!supabase) return;
@@ -120,6 +148,7 @@ export default function AdminPanel({
                 <th key={i}>C{i + 1}</th>
               ))}
               <th>Proyecto</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -144,10 +173,22 @@ export default function AdminPanel({
                       {openFilesFor === s.id ? "ocultar" : "ver"}
                     </button>
                   </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="logout-link"
+                      onClick={() => deleteStudent(s)}
+                      disabled={deleting === s.id}
+                      title={`Borrar la cuenta de ${s.name}`}
+                      style={{ fontSize: 12, color: "#f87171" }}
+                    >
+                      {deleting === s.id ? "borrando…" : "🗑 eliminar"}
+                    </button>
+                  </td>
                 </tr>
                 {openFilesFor === s.id && (
                   <tr>
-                    <td colSpan={curriculum.length + 2} style={{ textAlign: "left", background: "rgba(255,255,255,0.02)" }}>
+                    <td colSpan={curriculum.length + 3} style={{ textAlign: "left", background: "rgba(255,255,255,0.02)" }}>
                       {!filesByStudent[s.id] && <span className="level-desc">cargando…</span>}
                       {filesByStudent[s.id]?.length === 0 && (
                         <span className="level-desc">Todavía no subió archivos.</span>
@@ -174,7 +215,7 @@ export default function AdminPanel({
             ))}
             {!loading && students.length === 0 && (
               <tr>
-                <td colSpan={curriculum.length + 2} className="level-desc" style={{ textAlign: "center", padding: 20 }}>
+                <td colSpan={curriculum.length + 3} className="level-desc" style={{ textAlign: "center", padding: 20 }}>
                   Todavía no hay estudiantes cargados.
                 </td>
               </tr>
