@@ -49,12 +49,18 @@ type Meta = ({ kind: "player" } & LiveState) | { kind: "host"; game: Game | null
 export function useLive(key: string | null) {
   const [metas, setMetas] = useState<Meta[]>([]);
   const [connected, setConnected] = useState(false);
+  // Cada vez que se corta la conexión, sumamos 1 y el efecto de abajo se vuelve a conectar.
+  const [attempt, setAttempt] = useState(0);
   const channel = useRef<RealtimeChannel | null>(null);
   const joined = useRef(false);
   const pending = useRef<Meta | null>(null);
+  const lastSent = useRef(0);
+  const sendTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!supabase) return;
+    let disposed = false;
+    let retry: ReturnType<typeof setTimeout> | null = null;
     const presenceKey = key ?? `mira-${Math.random().toString(36).slice(2)}`;
     const ch = supabase.channel(ROOM, { config: { presence: { key: presenceKey } } });
 
@@ -67,29 +73,58 @@ export function useLive(key: string | null) {
     });
 
     ch.subscribe((status) => {
+      if (disposed) return;
       if (status === "SUBSCRIBED") {
         joined.current = true;
         setConnected(true);
-        if (pending.current) ch.track(pending.current).catch(() => {});
+        if (pending.current) {
+          lastSent.current = Date.now();
+          ch.track(pending.current).catch(() => {});
+        }
       } else if (status === "CLOSED" || status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
         joined.current = false;
         setConnected(false);
+        // Se cortó: probamos de nuevo en 2 segundos (con el mismo nombre y los mismos puntos).
+        if (!retry) retry = setTimeout(() => setAttempt((a) => a + 1), 2000);
       }
     });
     channel.current = ch;
 
     return () => {
+      disposed = true;
+      if (retry) clearTimeout(retry);
       joined.current = false;
       channel.current = null;
       setConnected(false);
       supabase?.removeChannel(ch);
     };
-  }, [key]);
+  }, [key, attempt]);
 
-  /** Manda mi estado a la sala (si todavía no conectó, lo manda apenas conecte). */
+  // Si la pestaña vuelve a estar visible y no estamos conectados, reconectamos ya.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible" && !joined.current) setAttempt((a) => a + 1);
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, []);
+
+  /**
+   * Manda mi estado a la sala. Como mucho 1 aviso por segundo (si no, Supabase corta la
+   * conexión); si llegan más rápido, se manda el último un ratito después.
+   */
   const send = useCallback((m: Meta) => {
     pending.current = m;
-    if (joined.current && channel.current) channel.current.track(m).catch(() => {});
+    const flush = () => {
+      sendTimer.current = null;
+      if (!joined.current || !channel.current || !pending.current) return;
+      lastSent.current = Date.now();
+      channel.current.track(pending.current).catch(() => {});
+    };
+    if (sendTimer.current) return; // ya hay uno programado: va a mandar el último
+    const wait = 1000 - (Date.now() - lastSent.current);
+    if (wait <= 0) flush();
+    else sendTimer.current = setTimeout(flush, wait);
   }, []);
 
   // La partida vigente: la más nueva que esté anunciando algún profe.
