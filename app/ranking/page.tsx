@@ -6,16 +6,14 @@ import Image from "next/image";
 import LiveBoard from "@/components/juegos/LiveBoard";
 import { Game, useLive } from "@/components/juegos/live";
 import { shuffle } from "@/components/juegos/util";
-import { quiz, QUIZ_CATS, QuizCat } from "@/lib/juegos";
+import { quiz, QUIZ_CATS, QUIZ_ROUND, QuizCat, pickQuestions } from "@/lib/juegos";
 
 // PANTALLA DEL PROFE (para proyectar): crea la partida, la arranca y muestra el top en vivo.
-const ROUND = 10;
-
 function newGame(cat: QuizCat | "todo"): Game {
-  const pool = quiz.map((q, i) => ({ q, i })).filter(({ q }) => cat === "todo" || q.cat === cat);
-  const items = shuffle(pool)
-    .slice(0, ROUND)
-    .map(({ q, i }) => ({ i, order: shuffle(q.opts.map((_, k) => k)) }));
+  const items = pickQuestions(cat, QUIZ_ROUND, shuffle).map((i) => ({
+    i,
+    order: shuffle(quiz[i].opts.map((_, k) => k)),
+  }));
   const createdAt = Date.now();
   return { id: createdAt.toString(36), createdAt, cat, items, status: "lobby" };
 }

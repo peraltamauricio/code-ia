@@ -25,7 +25,6 @@ export const QUIZ_CATS: { key: QuizCat | "todo"; label: string; icon: string }[]
   { key: "html", label: "HTML", icon: "</>" },
   { key: "css", label: "CSS", icon: "{ }" },
   { key: "web", label: "Compu e IA", icon: "💻" },
-  ...(jsUnlocked ? [{ key: "js" as const, label: "JavaScript", icon: "⚡" }] : []),
 ];
 
 const allQuiz: QuizQ[] = [
@@ -43,6 +42,11 @@ const allQuiz: QuizQ[] = [
   { cat: "html", q: "¿Qué etiqueta crea un botón?", opts: ["<boton>", "<button>", "<click>"], ok: 1, why: "<button> (en inglés) = botón." },
   { cat: "html", q: "¿Dónde va lo que se VE en la página?", opts: ["Dentro de <body>", "Dentro de <title>", "Afuera de todo"], ok: 0, why: "body = cuerpo. Todo lo visible va ahí." },
 
+  { cat: "html", q: "¿Qué etiqueta crea una lista NUMERADA (1, 2, 3)?", opts: ["<ol>", "<ul>", "<p>"], ok: 0, why: "<ol> es la lista numerada; <ul> la de puntitos." },
+  { cat: "html", q: "¿Qué etiqueta va adentro de una lista, una por cada ítem?", opts: ["<li>", "<a>", "<h1>"], ok: 0, why: "Cada ítem de la lista va en un <li>." },
+  { cat: "html", q: "¿Para qué sirve <div>?", opts: ["Es una caja para agrupar cosas", "Es un título", "Es una imagen"], ok: 0, why: "<div> es una caja: la IA la usa muchísimo para ordenar la página (como las tarjetas del Pinterest)." },
+  { cat: "html", q: "¿Qué texto aparece en la PESTAÑA del navegador?", opts: ["El de <title>", "El de <h1>", "El de <p>"], ok: 0, why: "<title> va en el <head> y es el nombre de la pestaña." },
+  { cat: "html", q: "¿Para qué sirve el alt de una imagen?", opts: ["Describe la imagen si no carga", "Le cambia el tamaño", "La convierte en link"], ok: 0, why: "alt describe la foto: ayuda si no carga y a las personas que no ven." },
   // ---------- CSS ----------
   { cat: "css", q: "¿Para qué sirve el CSS?", opts: ["Para darle estilo: colores, letras, tamaños", "Para escribir los textos", "Para subir la página"], ok: 0, why: "HTML es el esqueleto, CSS es la ropa." },
   { cat: "css", q: "¿Cómo se llama el archivo de estilos que usamos?", opts: ["style.css", "index.html", "foto.png"], ok: 0, why: "style.css, y se conecta al HTML con <link>." },
@@ -57,6 +61,12 @@ const allQuiz: QuizQ[] = [
   { cat: "css", q: "¿Con qué signo se cierran las reglas de CSS?", opts: ["{ }", "( )", "< >"], ok: 0, why: "Las propiedades van entre llaves: h1 { color: red; }" },
   { cat: "css", q: "¿Qué va al final de cada propiedad, como color: red?", opts: [";", ".", ","], ok: 0, why: "Punto y coma. Si falta, lo de abajo se puede romper." },
 
+  { cat: "css", q: "¿Qué hace margin?", opts: ["Espacio de AFUERA de una caja", "Cambia el color", "Pone negrita"], ok: 0, why: "margin separa una caja de las demás. padding es el espacio de adentro." },
+  { cat: "css", q: "¿Qué hace border?", opts: ["Le pone un borde a la caja", "Borra la caja", "Cambia la letra"], ok: 0, why: "Por ejemplo border: 2px solid black; dibuja un borde negro." },
+  { cat: "css", q: "En CSS, ¿cómo elegís todo lo que tiene class=\"pin\"?", opts: [".pin", "#pin", "pin!"], ok: 0, why: "Con punto: .pin { ... }. El numeral # es para id." },
+  { cat: "css", q: "¿Qué hace text-align: center?", opts: ["Centra el texto", "Agranda el texto", "Pinta el texto"], ok: 0, why: "Alinea el texto al centro." },
+  { cat: "css", q: "¿Qué hace font-weight: bold?", opts: ["Pone la letra en negrita", "Pone la letra en rojo", "Achica la letra"], ok: 0, why: "font-weight es el grosor: bold = negrita." },
+  { cat: "css", q: "¿Qué hace width: 300px?", opts: ["Le da 300 píxeles de ancho", "Le da 300 de alto", "La mueve 300"], ok: 0, why: "width = ancho. height = alto." },
   // ---------- Compu e IA ----------
   { cat: "web", q: "¿Qué programa usamos para escribir código?", opts: ["Visual Studio Code", "Paint", "WhatsApp"], ok: 0, why: "VS Code es nuestro editor de código." },
   { cat: "web", q: "¿Qué atajo GUARDA el archivo?", opts: ["Ctrl + S", "Ctrl + Z", "Ctrl + P"], ok: 0, why: "Ctrl+S = save (guardar). Si no guardás, el navegador no ve los cambios." },
@@ -70,6 +80,8 @@ const allQuiz: QuizQ[] = [
   { cat: "web", q: "¿Con qué vamos a publicar nuestra página en internet?", opts: ["Vercel", "Word", "Instagram"], ok: 0, why: "Vercel publica la página gratis con un link propio, como este sitio del taller." },
   { cat: "web", q: "¿Qué tecla abre las herramientas del navegador?", opts: ["F12", "F1", "Enter"], ok: 0, why: "F12. Ahí podés ver y probar el CSS en vivo." },
 
+  { cat: "web", q: "¿Qué atajo COPIA lo que seleccionaste?", opts: ["Ctrl + C", "Ctrl + V", "Ctrl + S"], ok: 0, why: "Ctrl+C copia y Ctrl+V pega." },
+  { cat: "web", q: "¿Qué atajo PEGA?", opts: ["Ctrl + V", "Ctrl + C", "Ctrl + Z"], ok: 0, why: "Ctrl+V pega lo que copiaste." },
   // ---------- JavaScript (aparece cuando se habilita la Clase 7) ----------
   { cat: "js", q: "¿Para qué sirve JavaScript?", opts: ["Para que la página HAGA cosas (botones, juegos)", "Para los colores", "Para los títulos"], ok: 0, why: "HTML = qué hay, CSS = cómo se ve, JS = qué hace." },
   { cat: "js", q: "¿Cómo se llama el archivo de JavaScript que usamos?", opts: ["script.js", "style.css", "index.html"], ok: 0, why: "script.js, y se conecta con <script src=\"script.js\">." },
@@ -80,6 +92,22 @@ const allQuiz: QuizQ[] = [
 
 /** Las preguntas que se pueden jugar hoy (sin JS hasta la Clase 7). */
 export const quiz: QuizQ[] = allQuiz.filter((q) => q.cat !== "js" || jsUnlocked);
+
+/** Preguntas por partida. */
+export const QUIZ_ROUND = 15;
+
+/**
+ * Elige los índices (dentro de `quiz`) de las preguntas de una partida.
+ * JavaScript casi no entra: como mucho 1 pregunta, porque se vio poco.
+ */
+export function pickQuestions(cat: QuizCat | "todo", n = QUIZ_ROUND, rand: <T>(a: T[]) => T[]): number[] {
+  const idxs = quiz.map((_, i) => i);
+  if (cat !== "todo") return rand(idxs.filter((i) => quiz[i].cat === cat)).slice(0, n);
+  const base = rand(idxs.filter((i) => quiz[i].cat !== "js")).slice(0, n - 1);
+  const js = rand(idxs.filter((i) => quiz[i].cat === "js")).slice(0, 1);
+  const extra = js.length ? js : rand(idxs.filter((i) => quiz[i].cat !== "js" && !base.includes(i))).slice(0, 1);
+  return rand([...base, ...extra]);
+}
 
 // ---------- Cazá el bug ----------
 export type Bug = {

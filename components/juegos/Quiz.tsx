@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { quiz, QUIZ_CATS, QuizCat, QuizQ } from "@/lib/juegos";
+import { quiz, QUIZ_CATS, QUIZ_ROUND, QuizCat, QuizQ, pickQuestions } from "@/lib/juegos";
 import { readBest, saveBest, shuffle } from "./util";
 import { saveScore, usePlayer } from "./players";
 import Ranking from "./Ranking";
 import LiveBoard from "./LiveBoard";
 import { Game, useLive } from "./live";
 
-const ROUND = 10;
+const ROUND = QUIZ_ROUND;
 const SECONDS = 30;
 const BEST_KEY = "codeia-quiz-best";
 const NAME_KEY = "codeia-nombre";
@@ -132,11 +132,8 @@ export default function Quiz() {
   function startSolo() {
     setLiveName(null);
     setGameId(null);
-    const pool = cat === "todo" ? quiz : quiz.filter((q) => q.cat === cat);
     resetRound(
-      shuffle(pool)
-        .slice(0, ROUND)
-        .map((q) => ({ ...q, order: shuffle(q.opts.map((_, i) => i)) }))
+      pickQuestions(cat, ROUND, shuffle).map((i) => ({ ...quiz[i], order: shuffle(quiz[i].opts.map((_, k) => k)) }))
     );
     setPhase("play");
   }
