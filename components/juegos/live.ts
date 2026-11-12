@@ -4,14 +4,30 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 
-// Competencia en vivo: todos los que juegan el quiz se conectan a la misma
-// "sala" (Supabase Realtime, presence) y mandan sus puntos pregunta por pregunta.
-// No guarda nada en la base: cuando alguien cierra la pestaña, sale de la sala.
+// PARTIDA EN VIVO (tipo Kahoot), con Supabase Realtime "presence".
+// - El profe abre /ranking, crea una partida y la anuncia en la sala.
+// - Los alumnos en /jugar ven la partida, se unen y esperan.
+// - Cuando el profe toca "Empezar", a todos les toca las MISMAS preguntas
+//   en el mismo orden, y cada uno manda sus puntos pregunta por pregunta.
+// No se guarda nada en la base: si alguien cierra la pestaña, sale de la sala.
 
 const ROOM = "quiz-en-vivo";
 
+export type GameItem = { i: number; order: number[] };
+
+export type Game = {
+  id: string;
+  /** Para elegir la más nueva si hubiera dos. */
+  createdAt: number;
+  cat: string;
+  /** Las preguntas: índice dentro de `quiz` y el orden de las opciones. */
+  items: GameItem[];
+  status: "lobby" | "playing" | "ended";
+};
+
 export type LiveState = {
   name: string;
+  gameId: string;
   score: number;
   /** Preguntas ya contestadas. */
   q: number;
@@ -22,29 +38,32 @@ export type LiveState = {
   last: "ok" | "bad" | null;
 };
 
+type Meta = ({ kind: "player" } & LiveState) | { kind: "host"; game: Game | null };
+
 /**
- * Se conecta a la sala. Con `name` juega (aparece en la carrera);
- * sin `name` solo mira (por ejemplo, la pantalla del proyector).
+ * Se conecta a la sala.
+ * - `key` = cómo me identifico (el nombre del alumno, o "profe-xxx").
+ *   Con `key` null solo miro (veo si hay partida, pero no aparezco).
+ * Devuelve la partida actual, los jugadores de ESA partida y `send` para avisar mi estado.
  */
-export function useLive(name: string | null) {
-  const [players, setPlayers] = useState<LiveState[]>([]);
+export function useLive(key: string | null) {
+  const [metas, setMetas] = useState<Meta[]>([]);
   const [connected, setConnected] = useState(false);
   const channel = useRef<RealtimeChannel | null>(null);
   const joined = useRef(false);
-  const pending = useRef<LiveState | null>(null);
+  const pending = useRef<Meta | null>(null);
 
   useEffect(() => {
     if (!supabase) return;
-    const key = name ?? `mira-${Math.random().toString(36).slice(2)}`;
-    const ch = supabase.channel(ROOM, { config: { presence: { key } } });
+    const presenceKey = key ?? `mira-${Math.random().toString(36).slice(2)}`;
+    const ch = supabase.channel(ROOM, { config: { presence: { key: presenceKey } } });
 
     ch.on("presence", { event: "sync" }, () => {
-      const state = ch.presenceState<LiveState>();
+      const state = ch.presenceState<Meta>();
       const list = Object.values(state)
-        .map((metas) => metas[metas.length - 1])
-        .filter((p): p is typeof p & LiveState => !!p && typeof p.name === "string");
-      list.sort((a, b) => b.score - a.score || b.q - a.q);
-      setPlayers(list);
+        .map((m) => m[m.length - 1])
+        .filter((m): m is typeof m & Meta => !!m && (m.kind === "player" || m.kind === "host"));
+      setMetas(list);
     });
 
     ch.subscribe((status) => {
@@ -65,13 +84,23 @@ export function useLive(name: string | null) {
       setConnected(false);
       supabase?.removeChannel(ch);
     };
-  }, [name]);
+  }, [key]);
 
   /** Manda mi estado a la sala (si todavía no conectó, lo manda apenas conecte). */
-  const update = useCallback((s: LiveState) => {
-    pending.current = s;
-    if (joined.current && channel.current) channel.current.track(s).catch(() => {});
+  const send = useCallback((m: Meta) => {
+    pending.current = m;
+    if (joined.current && channel.current) channel.current.track(m).catch(() => {});
   }, []);
 
-  return { players, connected, update };
+  // La partida vigente: la más nueva que esté anunciando algún profe.
+  let game: Game | null = null;
+  for (const m of metas) {
+    if (m.kind === "host" && m.game && (!game || m.game.createdAt > game.createdAt)) game = m.game;
+  }
+
+  const players = metas
+    .filter((m): m is { kind: "player" } & LiveState => m.kind === "player" && !!game && m.gameId === game.id)
+    .sort((a, b) => b.score - a.score || b.q - a.q);
+
+  return { game, players, connected, send };
 }

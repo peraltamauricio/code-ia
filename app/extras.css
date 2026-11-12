@@ -1126,3 +1126,65 @@ textarea::placeholder {
 .live-sub b {
   color: var(--violet-soft);
 }
+
+/* partida en vivo: invitación, sala de espera y pantalla del profe */
+.live-invite {
+  border-color: rgba(248, 113, 113, 0.45);
+  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.2), 0 20px 50px -24px rgba(248, 113, 113, 0.6);
+}
+.lobby-names {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.lobby-name {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(196, 139, 255, 0.12);
+  border: 1px solid rgba(196, 139, 255, 0.3);
+  font-weight: 600;
+  text-transform: capitalize;
+  animation: popIn 0.35s ease;
+}
+.lobby-name.is-me {
+  background: var(--violet-soft);
+  color: #1a0530;
+}
+@keyframes popIn {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+.lobby-names.is-big {
+  max-width: 900px;
+  margin: 18px auto 0;
+  gap: 12px;
+}
+.lobby-names.is-big .lobby-name {
+  font-size: 24px;
+  padding: 10px 22px;
+}
+.host-box {
+  max-width: 640px;
+  margin: 24px auto 0;
+}
+.host-box:hover {
+  transform: none;
+}
+.host-btn {
+  font-size: 18px;
+  padding: 16px 34px;
+}
+.host-url {
+  font-size: clamp(18px, 2.6vw, 28px);
+  line-height: 1.5;
+}
+.host-count {
+  color: var(--amber);
+  font-weight: 700;
+  font-size: 18px;
+  margin: 18px 0 0;
+}

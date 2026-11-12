@@ -22,7 +22,7 @@ export default function JugarPage() {
   return (
     <>
       <div className="bg-grid" />
-      <SubNav links={[{ href: "/ranking", label: "📺 pantalla en vivo" }, { href: "/guia", label: "📖 guía" }]} />
+      <SubNav links={[{ href: "/guia", label: "📖 guía" }]} />
 
       <section className="section" style={{ borderTop: "none" }}>
         <div className="wrap">
