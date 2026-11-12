@@ -913,6 +913,7 @@ textarea::placeholder {
 .race {
   max-width: 760px;
   margin: 20px auto 0;
+  text-align: left;
 }
 .race:hover {
   transform: none;
