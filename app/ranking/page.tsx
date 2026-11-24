@@ -6,11 +6,11 @@ import Image from "next/image";
 import LiveBoard from "@/components/juegos/LiveBoard";
 import { Game, useLive } from "@/components/juegos/live";
 import { shuffle } from "@/components/juegos/util";
-import { quiz, QUIZ_CATS, QUIZ_ROUND, QuizCat, pickQuestions } from "@/lib/juegos";
+import { quiz, QUIZ_CATS, QuizPick, pickQuestions, roundSize } from "@/lib/juegos";
 
 // PANTALLA DEL PROFE (para proyectar): crea la partida, la arranca y muestra el top en vivo.
-function newGame(cat: QuizCat | "todo"): Game {
-  const items = pickQuestions(cat, QUIZ_ROUND, shuffle).map((i) => ({
+function newGame(cat: QuizPick): Game {
+  const items = pickQuestions(cat, roundSize(cat), shuffle).map((i) => ({
     i,
     order: shuffle(quiz[i].opts.map((_, k) => k)),
   }));
@@ -23,7 +23,7 @@ export default function ProfePage() {
   const hostKey = useRef(`profe-${Math.random().toString(36).slice(2, 8)}`);
   const live = useLive(hostKey.current);
   const [game, setGame] = useState<Game | null>(null);
-  const [cat, setCat] = useState<QuizCat | "todo">("todo");
+  const [cat, setCat] = useState<QuizPick>("todo");
   const adopted = useRef(false);
 
   // Si recargo la página y había una partida andando, la retomo.

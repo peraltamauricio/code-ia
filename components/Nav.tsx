@@ -5,9 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const LINKS = [
-  { href: "/#proxima", label: "próxima clase" },
+  { href: "/#proxima", label: "próxima" },
   { href: "/#clases", label: "clases" },
-  { href: "/jugar", label: "jugar 🎮" },
+  { href: "/jugar", label: "jugar" },
+  { href: "/portfolio", label: "portfolio" },
   { href: "/guia", label: "guía" },
   { href: "/alumnos", label: "alumnos" },
 ];

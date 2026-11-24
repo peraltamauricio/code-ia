@@ -6,9 +6,11 @@ import Quiz from "@/components/juegos/Quiz";
 import Memotest from "@/components/juegos/Memotest";
 import CazaBugs from "@/components/juegos/CazaBugs";
 import EditorVivo from "@/components/juegos/EditorVivo";
+import Retos from "@/components/juegos/Retos";
 
 const GAMES = [
   { key: "quiz", icon: "🧠", label: "Quiz", desc: "Preguntas contra reloj" },
+  { key: "retos", icon: "🏆", label: "Retos", desc: "Desafíos largos con misiones" },
   { key: "memo", icon: "🃏", label: "Memotest", desc: "Código ↔ qué hace" },
   { key: "bugs", icon: "🐛", label: "Cazá el bug", desc: "Encontrá el error" },
   { key: "editor", icon: "🧪", label: "Editor en vivo", desc: "Probá código al toque" },
@@ -52,6 +54,7 @@ export default function JugarPage() {
 
           <div style={{ marginTop: 20 }}>
             {game === "quiz" && <Quiz />}
+            {game === "retos" && <Retos />}
             {game === "memo" && <Memotest />}
             {game === "bugs" && <CazaBugs />}
             {game === "editor" && <EditorVivo />}

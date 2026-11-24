@@ -1189,3 +1189,220 @@ textarea::placeholder {
   font-size: 18px;
   margin: 18px 0 0;
 }
+
+/* =====================================================================
+   RETOS LARGOS (/jugar → Retos)
+   ===================================================================== */
+.game-picker {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.reto-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto 16px;
+  text-align: left;
+}
+.reto-total {
+  font-weight: 700;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.reto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.reto-card {
+  position: relative;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+}
+.reto-card.is-done {
+  border-color: rgba(52, 211, 153, 0.5);
+}
+.reto-card-icon {
+  font-size: 34px;
+  line-height: 1;
+}
+.reto-card-title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: 19px;
+}
+.reto-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.reto-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(196, 139, 255, 0.14);
+  color: var(--violet-soft);
+}
+.reto-card-meta {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.reto-card-done {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #34d399;
+  color: #052e1c;
+}
+
+.reto {
+  max-width: none;
+}
+.reto:hover {
+  transform: none;
+}
+.reto-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.reto-title {
+  flex: 1;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+}
+.reto-count {
+  color: var(--amber);
+  font-weight: 700;
+}
+.reto-intro {
+  color: var(--ink-dim);
+  font-size: 14px;
+  margin: 0 0 14px;
+  max-width: 860px;
+}
+.reto-win {
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  margin-bottom: 14px;
+  font-size: 14px;
+  animation: popIn 0.4s ease;
+}
+.reto-win.is-soft {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.35);
+}
+.reto-win-btn {
+  background: none;
+  border: none;
+  color: var(--violet-soft);
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 6px;
+}
+.reto-body {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .reto-body {
+    grid-template-columns: 1fr;
+  }
+}
+.reto-missions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.reto-mission {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-line);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 13px;
+  transition: border-color 0.3s, background 0.3s;
+}
+.reto-mission.is-done {
+  border-color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+}
+.reto-check {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--violet-soft);
+}
+.reto-mission.is-done .reto-check {
+  background: #34d399;
+  color: #052e1c;
+}
+.reto-mission-body {
+  min-width: 0;
+}
+.reto-mission-body p {
+  margin: 0;
+  word-break: break-word;
+}
+.reto-hint-btn {
+  margin-top: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--amber);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.reto-hint {
+  margin-top: 6px !important;
+  padding: 8px 10px !important;
+  border-radius: 8px;
+  background: rgba(251, 191, 36, 0.08);
+  color: var(--amber);
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+.reto-work {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.reto .editor-area {
+  min-height: 300px;
+}
+.reto .editor-frame {
+  min-height: 260px;
+}

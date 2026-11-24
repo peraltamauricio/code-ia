@@ -43,7 +43,7 @@ export default function Info() {
           <div className="info-card panel">
             <div className="ic">DEPLOY</div>
             <h4>Git + GitHub</h4>
-            <p>Publicación con GitHub + Vercel</p>
+            <p>Publicación con Netlify</p>
           </div>
         </div>
       </div>

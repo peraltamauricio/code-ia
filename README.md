@@ -14,15 +14,25 @@ Sitio del taller **CODE +IA** (programación e inteligencia artificial para chic
 | `/portal` | Login por nickname + contraseña. Alumno: ve su progreso y sube proyectos. Admin (Mauri/Siro): tilda progreso, da de alta alumnos, ve los archivos de cada uno |
 | `/alumnos` | Galería pública "Páginas de alumnos" para que vean los padres en la muestra final |
 | `/guia` | Guías "Paso a paso" (proyecto, prompts, portfolio, deploy con GitHub + Vercel, errores) + machete de HTML, CSS y JS |
-| `/jugar` | Zona de juegos: quiz con ranking del grupo, memotest, cazá el bug y editor en vivo |
+| `/jugar` | Zona de juegos: quiz (partida en vivo o práctica), **retos largos** con autocorrección, memotest, cazá el bug y editor en vivo |
+| `/ranking` | **Pantalla del profe** (para proyectar): crea la partida del quiz, la empieza y muestra el top en vivo |
+| `/portfolio` | **Armador de portfolio**: formulario por pasos + vista previa en vivo + descarga de un `index.html` + paso a paso para subirlo a Netlify |
 | `/api/create-student` | Endpoint de servidor (usa la service role) para que un admin cree cuentas |
 
 ## Clases y candado
 
-- El contenido está en [lib/curriculum.ts](lib/curriculum.ts): 11 clases (1 HTML/presentación, 2 CSS, 3-4 Spotify, 5-6 Pinterest, 7 JavaScript, 8 Juego JS, 9 Portfolio, 10 Deploy, 11 Muestra final).
-- **Habilitar una clase:** agregar su número a `UNLOCKED_CLASSES` en ese mismo archivo (hoy: `[1, 2, 3, 4, 5, 6, 7]`), commit y push. La primera clase no habilitada se muestra sola como **"Próxima clase"** (adelanto en la landing); el resto muestra candado. Al habilitar la 7, aparecen también las preguntas y bugs de JavaScript en `/jugar`.
+- El contenido está en [lib/curriculum.ts](lib/curriculum.ts): 11 clases (1 HTML/presentación, 2 CSS, 3-4 Spotify, 5-6 Pinterest, 7 JavaScript, 8 Juego JS, 9 Gran repaso, 10 Portfolio + Netlify, 11 Muestra final).
+- **Habilitar una clase:** agregar su número a `UNLOCKED_CLASSES` en ese mismo archivo (hoy: `[1, 2, 3, 4, 5, 6, 7, 8]`), commit y push. La primera clase no habilitada se muestra sola como **"Próxima clase"** (adelanto en la landing); el resto muestra candado. Al habilitar la 7, aparecen también las preguntas y bugs de JavaScript en `/jugar`.
 - IA recomendada por clase: 1 las tres · 2, 4, 5, 6, 7 ChatGPT · 3 Gemini · 8 a 11 Claude.
 - Casi todo el sitio toma la cantidad de clases de `curriculum.length`. Lo único con números de clase escritos a mano: `components/Niveles.tsx` (etiquetas "CLASE 02/03/04"), `components/Programa.tsx` (rangos) y las notas `toolNote` dentro de `curriculum.ts`. Si se mueven clases, revisar eso.
+
+## Juegos, retos y portfolio
+
+- **Quiz en vivo (tipo Kahoot):** el profe abre `/ranking`, elige el tema (hay un **Repaso final** de 20 preguntas equilibradas: 7 HTML, 7 CSS, 6 JS) y toca *Crear partida*. Los alumnos entran a `/jugar`, ven el cartel rojo y se unen con su nombre. Al tocar *Empezar* todos juegan las mismas preguntas. Usa Supabase Realtime (presence): no guarda nada en la base y se reconecta solo.
+- **Retos largos** (`/jugar` → Retos): contenido en [lib/retos.ts](lib/retos.ts). Cada reto tiene *misiones* con una prueba que se evalúa dentro de la vista previa del alumno y se tilda sola. Ayudas para escribir pruebas: `__js()` (el JS del alumno, sin comentarios) y `__rule("texto", /regex/)` (¿hay una regla de CSS así?). Los retos con `interactive: true` recargan la vista previa después de probar los botones. El progreso y los borradores se guardan en el navegador de cada alumno (localStorage). Cuidado al sumar misiones: comprobar que **con el código inicial no se tilde ninguna** y que **con la solución se tilden todas**.
+- **Armador de portfolio** (`/portfolio`): el generador está en [lib/portfolio.ts](lib/portfolio.ts) (devuelve un solo `index.html` con CSS y JS comentados) y el formulario en `components/portfolio/`. El borrador se guarda en el navegador.
+- **Guías paso a paso** en [lib/guias.ts](lib/guias.ts): el deploy principal es **Netlify** (arrastrar la carpeta); GitHub + Vercel quedó como opción B y subir al portal como plan B.
+- Preguntas, bugs y pares del memotest: [lib/juegos.ts](lib/juegos.ts) (lo de JavaScript se esconde solo hasta habilitar la Clase 7).
 
 ## Ranking del quiz
 

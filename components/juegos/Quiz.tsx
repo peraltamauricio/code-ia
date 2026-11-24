@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { quiz, QUIZ_CATS, QUIZ_ROUND, QuizCat, QuizQ, pickQuestions } from "@/lib/juegos";
+import { quiz, QUIZ_CATS, QuizPick, QuizQ, pickQuestions, roundSize } from "@/lib/juegos";
 import { readBest, saveBest, shuffle } from "./util";
 import { saveScore, usePlayer } from "./players";
 import Ranking from "./Ranking";
 import LiveBoard from "./LiveBoard";
 import { Game, useLive } from "./live";
 
-const ROUND = QUIZ_ROUND;
 const SECONDS = 30;
 const BEST_KEY = "codeia-quiz-best";
 const NAME_KEY = "codeia-nombre";
@@ -23,7 +22,7 @@ function questionsFromGame(game: Game): Q[] {
 
 export default function Quiz() {
   const [phase, setPhase] = useState<Phase>("menu");
-  const [cat, setCat] = useState<QuizCat | "todo">("todo");
+  const [cat, setCat] = useState<QuizPick>("todo");
   const [qs, setQs] = useState<Q[]>([]);
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<number | null>(null); // índice original elegido, -1 = se acabó el tiempo
@@ -133,7 +132,7 @@ export default function Quiz() {
     setLiveName(null);
     setGameId(null);
     resetRound(
-      pickQuestions(cat, ROUND, shuffle).map((i) => ({ ...quiz[i], order: shuffle(quiz[i].opts.map((_, k) => k)) }))
+      pickQuestions(cat, roundSize(cat), shuffle).map((i) => ({ ...quiz[i], order: shuffle(quiz[i].opts.map((_, k) => k)) }))
     );
     setPhase("play");
   }
@@ -221,7 +220,7 @@ export default function Quiz() {
           <div className="game-hero">🧠</div>
           <h3 className="game-title">{game ? "O practicá solo/a" : "Quiz CODE+IA"}</h3>
           <p className="game-desc">
-            {ROUND} preguntas, {SECONDS} segundos cada una. Sumás más puntos si contestás rápido y si
+            {roundSize(cat)} preguntas, {SECONDS} segundos cada una. Sumás más puntos si contestás rápido y si
             encadenás respuestas correctas 🔥
           </p>
           <div className="game-chips">

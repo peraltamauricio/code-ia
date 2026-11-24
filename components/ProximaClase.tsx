@@ -3,12 +3,12 @@ import { curriculum, isUnlocked, nextClass } from "@/lib/curriculum";
 
 // Los hitos del camino: la clase donde se termina cada proyecto.
 const HITOS = [
-  { n: 2, icon: "👋", label: "Presentación" },
   { n: 4, icon: "🎧", label: "Spotify" },
   { n: 6, icon: "📌", label: "Pinterest" },
   { n: 8, icon: "🎮", label: "Juego JS" },
-  { n: 9, icon: "💼", label: "Portfolio" },
+  { n: 9, icon: "🏆", label: "Repaso" },
   { n: 10, icon: "🚀", label: "Online" },
+  { n: 11, icon: "🎤", label: "Muestra" },
 ];
 
 export default function ProximaClase() {
@@ -78,6 +78,11 @@ export default function ProximaClase() {
                 <a className="btn btn-solid spotlight" href="#clases">
                   Ver la clase completa →
                 </a>
+                {nextClass.n >= 9 && (
+                  <Link className="btn" href="/portfolio">
+                    💼 Armar mi portfolio
+                  </Link>
+                )}
                 <Link className="btn" href="/jugar">
                   🎮 Repasar jugando
                 </Link>

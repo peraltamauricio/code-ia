@@ -2,48 +2,9 @@
 
 import { KeyboardEvent, useEffect, useState } from "react";
 import { editorTemplates } from "@/lib/juegos";
+import { buildDoc, downloadDoc, LogLine } from "./preview";
 
 type Tab = "html" | "css" | "js";
-type LogLine = { kind: "log" | "error"; text: string };
-
-// Este pedacito se mete adentro de la vista previa para mandarnos los
-// console.log y los errores, así se ven abajo como una mini consola.
-const BRIDGE = `<script>
-(function(){
-  function send(kind, args){
-    parent.postMessage({ codeia: true, kind: kind, text: Array.from(args).map(function(a){
-      try { return typeof a === "object" ? JSON.stringify(a) : String(a); } catch(e) { return String(a); }
-    }).join(" ") }, "*");
-  }
-  var log = console.log;
-  console.log = function(){ send("log", arguments); log.apply(console, arguments); };
-  window.onerror = function(msg, src, line){ var l = line - __OFFSET__; send("error", [(l > 0 ? "Error en script.js, línea " + l : "Error") + ": " + msg]); };
-})();
-<\/script>`;
-
-function buildDoc(html: string, css: string, js: string, withBridge: boolean) {
-  const before = `<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi página</title>
-  <style>
-${css}
-  </style>
-${withBridge ? BRIDGE : ""}
-</head>
-<body>
-${html}
-  <script>
-`;
-  // Cuántas líneas hay antes del JS del alumno, para que el error diga la línea de SU script.js.
-  const offset = before.split("\n").length - 1;
-  return before.replace("__OFFSET__", String(offset)) + `${js}
-  </script>
-</body>
-</html>`;
-}
 
 export default function EditorVivo() {
   const [tpl, setTpl] = useState(0);
@@ -68,6 +29,7 @@ export default function EditorVivo() {
   useEffect(() => {
     function onMsg(e: MessageEvent) {
       if (!e.data || e.data.codeia !== true) return;
+      if (e.data.kind !== "log" && e.data.kind !== "error") return; // los "checks" son de los retos
       setLogs((l) => [...l.slice(-30), { kind: e.data.kind, text: String(e.data.text) }]);
     }
     window.addEventListener("message", onMsg);
@@ -95,13 +57,7 @@ export default function EditorVivo() {
   }
 
   function download() {
-    const blob = new Blob([buildDoc(code.html, code.css, code.js, false)], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "index.html";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadDoc(code.html, code.css, code.js);
   }
 
   return (
