@@ -99,12 +99,17 @@ export default function Jefe({ misiones, results, name = "ChatGPT Malvado", hint
   const total = misiones.length;
   const done = misiones.filter((_, i) => results?.[i]).length;
   const next = misiones.findIndex((_, i) => !results?.[i]);
-  const vida = total ? Math.round(((total - done) / total) * 100) : 0;
   const ganaste = next === -1;
+  // Cada pista que pedís le devuelve vida al jefe (como si no hubieras cumplido una misión).
+  const [pistas, setPistas] = useState<number[]>([]); // misiones cuya pista se abrió
+  // Vida del jefe en "preguntas": baja al cumplir una misión y sube al pedir una pista (sin pasar del máximo).
+  const [hp, setHp] = useState(Math.max(0, total - done));
+  const vida = total ? Math.round(((ganaste ? 0 : hp) / total) * 100) : 0;
 
   const [sound, setSound] = useState(false);
   const [hit, setHit] = useState(0); // sube cada vez que le pegás
   const [dmg, setDmg] = useState<number | null>(null);
+  const [cura, setCura] = useState<number | null>(null);
   const [talk, setTalk] = useState<string | null>(null);
   const [listo, setListo] = useState(false); // ¿ya terminó de escribir la pregunta?
   const prev = useRef(done);
@@ -119,7 +124,9 @@ export default function Jefe({ misiones, results, name = "ChatGPT Malvado", hint
       prev.current = done;
       return;
     }
+    if (done < prev.current) setHp(total - done); // empezó de cero
     if (done > prev.current) {
+      setHp((h) => Math.max(0, h - (done - prev.current)));
       setHit((h) => h + 1);
       setDmg(Math.round(100 / Math.max(1, total)));
       setTalk(null);
@@ -137,6 +144,21 @@ export default function Jefe({ misiones, results, name = "ChatGPT Malvado", hint
   }, [next]);
 
   const onDoneTyping = useCallback(() => setListo(true), []);
+
+  function pedirPista() {
+    if (next < 0 || pistas.includes(next)) return;
+    setPistas((p) => [...p, next]);
+    const sube = hp < total;
+    setHp((h) => Math.min(total, h + 1));
+    if (sube) setCura(Math.round(100 / Math.max(1, total)));
+    setTalk(
+      sube
+        ? "¡JA, JA, JA! ¿Necesitás ayuda? Eso me cura. 😈💚"
+        : "¿Una pista ya? Qué flojo/a. Igual todavía no me pegaste. 😏",
+    );
+    if (soundRef.current) beep("talk");
+    setTimeout(() => setCura(null), 1100);
+  }
 
   function clickBoss() {
     if (ganaste) {
@@ -166,6 +188,7 @@ export default function Jefe({ misiones, results, name = "ChatGPT Malvado", hint
           <img src="/jefe.png" alt={name} width={72} height={72} />
           {ganaste && <i className="jefe-x">😵</i>}
           {dmg !== null && <span className="jefe-dmg">-{dmg}%</span>}
+          {cura !== null && <span className="jefe-dmg is-heal">+{cura}%</span>}
         </button>
         <div className="jefe-info">
           <b>{name}</b>
@@ -173,7 +196,7 @@ export default function Jefe({ misiones, results, name = "ChatGPT Malvado", hint
             <div className="jefe-hp-fill" style={{ width: `${vida}%` }} />
           </div>
           <span className="jefe-hp-txt">
-            {ganaste ? "¡Derrotado!" : `Le quedan ${total - done} de ${total} preguntas`}
+            {ganaste ? "¡Derrotado!" : `Vida ${vida}% · preguntas ${done}/${total}`}
           </span>
         </div>
         <button
@@ -230,18 +253,23 @@ export default function Jefe({ misiones, results, name = "ChatGPT Malvado", hint
                     <p className="jefe-ask">
                       <span>Pregunta {next + 1}:</span> {m.t}
                     </p>
-                    {ej && (
-                      <p className="jefe-ej">
-                        <b>💡 Ejemplo para vencerme:</b>
-                        {"\n"}
-                        {ej}
-                      </p>
-                    )}
+                    {ej &&
+                      (pistas.includes(next) ? (
+                        <p className="jefe-ej">
+                          <b>💡 Pista (me curaste un poco 😈):</b>
+                          {"\n"}
+                          {ej}
+                        </p>
+                      ) : (
+                        <button type="button" className="jefe-pista" onClick={pedirPista}>
+                          💡 Pedir pista <small>(el jefe recupera vida)</small>
+                        </button>
+                      ))}
                   </div>
                 )}
               </div>
               <div className="jefe-wait">
-                Escribilo en el editor… cuando esté bien, ¡le pegás al jefe! (tocá al jefe si querés charlar 😈)
+                Escribilo en el editor… cuando esté bien, ¡le pegás al jefe! Si pedís pista, él se cura. (Tocalo si querés charlar 😈)
               </div>
             </div>
           )
