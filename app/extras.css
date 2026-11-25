@@ -1688,3 +1688,61 @@ button.jefe-face img {
 @keyframes confeti {
   to { transform: translateY(160px) rotate(360deg); opacity: 0; }
 }
+
+/* Editor con autocompletado (CodeArea) */
+.ca-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.ca-wrap .editor-area {
+  flex: 1;
+}
+.ca-hint {
+  padding: 6px 12px;
+  font-size: 11px;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--panel-line);
+  background: rgba(255, 255, 255, 0.02);
+}
+.ca-pop {
+  position: absolute;
+  z-index: 30;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  min-width: 220px;
+  max-width: 320px;
+  max-height: 190px;
+  overflow: auto;
+  background: #1b1230;
+  border: 1px solid var(--violet-soft);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+}
+.ca-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ca-item.is-on {
+  background: rgba(196, 139, 255, 0.28);
+}
+.ca-label {
+  color: #fff;
+  font-weight: 700;
+}
+.ca-detail {
+  margin-left: auto;
+  color: var(--ink-faint);
+  font-family: var(--font-display), sans-serif;
+  font-size: 11px;
+  white-space: nowrap;
+}

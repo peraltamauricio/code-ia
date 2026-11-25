@@ -102,13 +102,13 @@ export const quiz: QuizQ[] = allQuiz.filter((q) => q.cat !== "js");
 /** Preguntas por partida normal. */
 export const QUIZ_ROUND = 15;
 /** Preguntas del "Repaso final". */
-export const QUIZ_REPASO = 20;
+export const QUIZ_REPASO = 25;
 
 export const roundSize = (cat: QuizPick) => (cat === "repaso" ? QUIZ_REPASO : QUIZ_ROUND);
 
 /**
  * Elige los índices (dentro de `quiz`) de las preguntas de una partida.
- * - "repaso": 9 de HTML, 9 de CSS y 2 de JavaScript (se vio muy poco).
+ * - "repaso": 25 preguntas: 11 de HTML, 11 de CSS y el resto de Compu e IA (sin JavaScript).
  * - "todo" (Mezcla): HTML, CSS y compu; JavaScript casi no entra (máximo 1).
  * - un tema: preguntas de ese tema.
  */
@@ -117,8 +117,8 @@ export function pickQuestions(cat: QuizPick, n = QUIZ_ROUND, rand: <T>(a: T[]) =
   const of = (c: QuizCat) => rand(idxs.filter((i) => quiz[i].cat === c));
   if (cat === "repaso") {
     const js = of("js").slice(0, 2);
-    const html = of("html").slice(0, 9);
-    const css = of("css").slice(0, 9);
+    const html = of("html").slice(0, 11);
+    const css = of("css").slice(0, 11);
     const chosen = [...html, ...css, ...js];
     // Si faltaran de alguna (por ejemplo, JavaScript todavía no habilitado), se completa con otras.
     const rest = rand(idxs.filter((i) => !chosen.includes(i) && (quiz[i].cat !== "js" || js.length > 0)));

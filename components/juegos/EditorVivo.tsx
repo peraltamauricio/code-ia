@@ -1,8 +1,9 @@
 "use client";
 
-import { KeyboardEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { editorTemplates } from "@/lib/juegos";
 import { buildDoc, downloadDoc, LogLine } from "./preview";
+import CodeArea from "./CodeArea";
 
 type Tab = "html" | "css" | "js";
 
@@ -44,18 +45,6 @@ export default function EditorVivo() {
   }
 
   // Tab escribe espacios en vez de saltar al siguiente botón.
-  function onKey(e: KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key !== "Tab") return;
-    e.preventDefault();
-    const el = e.currentTarget;
-    const { selectionStart: s, selectionEnd: end, value } = el;
-    const nextValue = value.slice(0, s) + "  " + value.slice(end);
-    setCode((c) => ({ ...c, [tab]: nextValue }));
-    requestAnimationFrame(() => {
-      el.selectionStart = el.selectionEnd = s + 2;
-    });
-  }
-
   function download() {
     downloadDoc(code.html, code.css, code.js);
   }
@@ -92,13 +81,11 @@ export default function EditorVivo() {
               </button>
             ))}
           </div>
-          <textarea
-            className="editor-area"
+          <CodeArea
             value={code[tab]}
-            spellCheck={false}
-            onKeyDown={onKey}
-            onChange={(e) => setCode((c) => ({ ...c, [tab]: e.target.value }))}
-            aria-label={`Código ${tab}`}
+            lang={tab}
+            onChange={(v) => setCode((c) => ({ ...c, [tab]: v }))}
+            ariaLabel={`Código ${tab}`}
             placeholder={tab === "js" ? "// escribí tu JavaScript acá" : ""}
           />
         </div>

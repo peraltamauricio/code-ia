@@ -255,7 +255,7 @@ export const curriculum: ClassSession[] = [
       "Cuando te trabás: pedirle a la IA una PISTA (no la solución) y pasarle tu código y el error de la consola.",
     ],
     practica: [
-      "Torneo en vivo \"Repaso final\" (20 preguntas) con el ranking en el proyector.",
+      "Torneo en vivo \"Repaso final\" (25 preguntas) con el ranking en el proyector.",
       "Armar páginas con **bloques** (estilo Scratch) en /jugar → Bloques: los bloques van escribiendo el HTML y el CSS al lado.",
       "Retos largos en /jugar → Retos: HTML y CSS, y uno con alert (lo único de JavaScript que repasamos).",
       "Armar la carpeta portfolio/ y mover adentro la presentación, el Spotify, el Pinterest y el juego (una carpeta por proyecto).",

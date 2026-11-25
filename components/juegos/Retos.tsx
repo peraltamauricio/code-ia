@@ -1,9 +1,10 @@
 "use client";
 
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { retos, Reto, Code } from "@/lib/retos";
 import { buildDoc, downloadDoc, LogLine } from "./preview";
 import Jefe from "./Jefe";
+import CodeArea from "./CodeArea";
 
 type Tab = "html" | "css" | "js";
 
@@ -188,18 +189,6 @@ function RetoView({ reto, onBack, onDone }: { reto: Reto; onBack: () => void; on
   }, [all, celebrated, usedSolution, onDone, reto.id]);
 
   // Tab escribe espacios en vez de saltar al siguiente botón.
-  function onKey(e: KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key !== "Tab") return;
-    e.preventDefault();
-    const el = e.currentTarget;
-    const { selectionStart: s, selectionEnd: end, value } = el;
-    const nextValue = value.slice(0, s) + "  " + value.slice(end);
-    setCode((c) => ({ ...c, [tab]: nextValue }));
-    requestAnimationFrame(() => {
-      el.selectionStart = el.selectionEnd = s + 2;
-    });
-  }
-
   function toggleHint(i: number) {
     setHints((h) => {
       const n = new Set(h);
@@ -275,13 +264,11 @@ function RetoView({ reto, onBack, onDone }: { reto: Reto; onBack: () => void; on
                 </button>
               ))}
             </div>
-            <textarea
-              className="editor-area"
+            <CodeArea
               value={code[tab]}
-              spellCheck={false}
-              onKeyDown={onKey}
-              onChange={(e) => setCode((c) => ({ ...c, [tab]: e.target.value }))}
-              aria-label={`Código ${FILE[tab]}`}
+              lang={tab}
+              onChange={(v) => setCode((c) => ({ ...c, [tab]: v }))}
+              ariaLabel={`Código ${FILE[tab]}`}
             />
           </div>
 
