@@ -247,7 +247,7 @@ export const curriculum: ClassSession[] = [
     n: 9,
     title: "Gran repaso: torneo y retos largos",
     objetivo:
-      "Repasar HTML, CSS y JavaScript jugando: un torneo en vivo y retos largos con autocorrección. Y dejar armada la carpeta del portfolio.",
+      "Repasar HTML y CSS jugando: un torneo en vivo y retos largos con autocorrección. Y dejar armada la carpeta del portfolio.",
     teoria: [
       "Mapa de todo lo visto: HTML = qué hay, CSS = cómo se ve, JavaScript = qué hace. Con los bloques de colores se ve cómo cada bloque se convierte en código.",
       "JavaScript, lo justo: es lo que hace que la página haga cosas, como un alert. Casi todo lo escribe la IA: vos lo pedís bien, lo probás y entendés qué hace.",

@@ -28,7 +28,6 @@ export const QUIZ_CATS: { key: QuizPick; label: string; icon: string }[] = [
   { key: "todo", label: "Mezcla", icon: "🎲" },
   { key: "html", label: "HTML", icon: "</>" },
   { key: "css", label: "CSS", icon: "{ }" },
-  { key: "js", label: "JavaScript", icon: "⚡" },
   { key: "web", label: "Compu e IA", icon: "💻" },
 ];
 
@@ -98,7 +97,7 @@ const allQuiz: QuizQ[] = [
 ];
 
 /** Las preguntas que se pueden jugar hoy (sin JS hasta la Clase 7). */
-export const quiz: QuizQ[] = allQuiz.filter((q) => q.cat !== "js" || jsUnlocked);
+export const quiz: QuizQ[] = allQuiz.filter((q) => q.cat !== "js");
 
 /** Preguntas por partida normal. */
 export const QUIZ_ROUND = 15;
@@ -175,12 +174,6 @@ export const memoPairs: { a: string; b: string }[] = [
   { a: "border-radius", b: "Esquinas redondas" },
   { a: ":hover", b: "Al pasar el mouse" },
   { a: "Ctrl + S", b: "Guardar" },
-  ...(jsUnlocked
-    ? [
-        { a: "alert()", b: "Muestra un cartel" },
-        { a: "JavaScript", b: "Lo que hace la página" },
-      ]
-    : []),
 ];
 
 // ---------- Editor en vivo: ejemplos para arrancar ----------

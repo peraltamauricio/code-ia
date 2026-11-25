@@ -18,8 +18,8 @@ const items = [
   {
     tag: "CLASES 07-08",
     icon: "ƒ()",
-    title: "JavaScript",
-    desc: "Lo que hace la página: botones que funcionan, modo oscuro, me gusta y un mini juego propio.",
+    title: "Un toque de JavaScript",
+    desc: "Solo lo justo: el alert. Lo demás (botones, me gusta, un mini juego) se lo pedimos a la IA.",
     xp: "entregable: juego propio",
   },
 ];

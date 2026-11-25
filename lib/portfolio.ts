@@ -45,15 +45,15 @@ export const PROYECTOS_BASE: Record<string, Proyecto> = {
   presentacion: { emoji: "👋", titulo: "Mi presentación", desc: "Mi primera página web, hecha con HTML y CSS.", link: "presentacion/index.html", imagen: "" },
   spotify: { emoji: "🎧", titulo: "Mi Spotify", desc: "Una página tipo Spotify con mis playlists favoritas.", link: "spotify/index.html", imagen: "" },
   pinterest: { emoji: "📌", titulo: "Mi Pinterest", desc: "Un mosaico de imágenes con corazones y modo oscuro.", link: "pinterest/index.html", imagen: "" },
-  juego: { emoji: "🎮", titulo: "Mi juego", desc: "Un juego hecho con JavaScript. ¡Probalo!", link: "juego/index.html", imagen: "" },
+  juego: { emoji: "🎮", titulo: "Mi juego", desc: "Un juego hecho con ayuda de la IA. ¡Probalo!", link: "juego/index.html", imagen: "" },
 };
 
 export const defaultPortfolio: PortfolioData = {
   nombre: "",
   frase: "Estudiante del taller CODE+IA, aprendiendo a programar con inteligencia artificial.",
-  sobreMi: "Hola, soy nuevo/a en esto de programar. En el taller aprendí HTML, CSS y JavaScript y armé mis primeros proyectos con ayuda de la IA.\nMe gusta [lo que te gusta hacer] y quiero seguir aprendiendo.",
+  sobreMi: "Hola, soy nuevo/a en esto de programar. En el taller aprendí HTML y CSS y armé mis primeros proyectos con ayuda de la IA.\nMe gusta [lo que te gusta hacer] y quiero seguir aprendiendo.",
   avatar: "😎",
-  habilidades: ["HTML", "CSS", "JavaScript", "ChatGPT"],
+  habilidades: ["HTML", "CSS", "ChatGPT"],
   proyectos: [PROYECTOS_BASE.spotify, PROYECTOS_BASE.pinterest, PROYECTOS_BASE.juego].map((p) => ({ ...p })),
   email: "",
   instagram: "",

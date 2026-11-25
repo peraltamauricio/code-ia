@@ -34,7 +34,7 @@ export default function JugarPage() {
             <span className="mono-tag">zona.de.juegos</span>
             <h2 className="section-title">Repasá jugando</h2>
             <p className="section-desc">
-              HTML, CSS y JavaScript en modo juego. Poné tu nombre en el quiz y competí en vivo
+              HTML y CSS en modo juego. Poné tu nombre en el quiz y competí en vivo
               con todo el grupo: ¿quién saca más puntos?
             </p>
           </div>

@@ -4,7 +4,7 @@ const items = [
   { num: "[05-06]", title: "PINTEREST", desc: "Grillas, tarjetas, hover y responsive para el celular." },
   { num: "[07]", title: "JAVASCRIPT", desc: "Botones que hacen cosas: me gusta, alertas, modo oscuro." },
   { num: "[08]", title: "MI JUEGO", desc: "Un mini juego propio con variables, if/else y azar." },
-  { num: "[09]", title: "GRAN REPASO", desc: "Torneo en vivo y retos largos de HTML, CSS y JavaScript con autocorrección." },
+  { num: "[09]", title: "GRAN REPASO", desc: "Torneo en vivo y retos largos de HTML y CSS con autocorrección." },
   { num: "[10]", title: "PORTFOLIO + ONLINE", desc: "Juntar todos los proyectos en un portfolio y publicarlo con Netlify." },
   { num: "[11]", title: "MUESTRA FINAL", desc: "Cada participante presenta su portfolio publicado a la familia." },
 ];

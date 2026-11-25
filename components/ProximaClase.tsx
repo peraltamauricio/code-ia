@@ -5,7 +5,7 @@ import { curriculum, isUnlocked, nextClass } from "@/lib/curriculum";
 const HITOS = [
   { n: 4, icon: "🎧", label: "Spotify" },
   { n: 6, icon: "📌", label: "Pinterest" },
-  { n: 8, icon: "🎮", label: "Juego JS" },
+  { n: 8, icon: "🎮", label: "Juego con IA" },
   { n: 9, icon: "🏆", label: "Repaso" },
   { n: 10, icon: "🚀", label: "Online" },
   { n: 11, icon: "🎤", label: "Muestra" },

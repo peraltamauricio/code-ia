@@ -173,5 +173,4 @@ export const guide: GuideEntry[] = [
 export const CATS: { key: GuideEntry["cat"]; label: string; icon: string }[] = [
   { key: "html", label: "HTML", icon: "</>" },
   { key: "css", label: "CSS", icon: "{ }" },
-  { key: "js", label: "JavaScript", icon: "⚡" },
 ];

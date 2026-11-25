@@ -20,7 +20,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "CODE +IA",
   description:
-    "Taller de programación e inteligencia artificial para adolescentes. HTML, CSS y JavaScript con Claude, ChatGPT y Gemini como copilotos.",
+    "Taller de programación e inteligencia artificial para adolescentes. HTML y CSS con Claude, ChatGPT y Gemini como copilotos.",
 };
 
 // El sitio es SIEMPRE oscuro, aunque la compu esté en modo claro.

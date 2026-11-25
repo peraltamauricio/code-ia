@@ -50,7 +50,7 @@ export default function GuiaPage() {
             <h2 className="section-title">Guía rápida</h2>
             <p className="section-desc">
               Guías paso a paso para lo importante (portfolio, subir tu página a internet) y el
-              machete de HTML, CSS y JavaScript para tener a mano en clase.
+              machete de HTML y CSS para tener a mano en clase.
             </p>
           </div>
 
