@@ -288,6 +288,14 @@ function Editor({ mode, reto, onDone }: { mode: string; reto?: BReto; onDone: (i
             <div className="path-bar-fill" style={{ width: `${total ? (ok / total) * 100 : 0}%` }} />
           </div>
           <p className="reto-intro">{reto.intro}</p>
+          <div className="reto-how">
+            <b>¿Cómo se juega?</b>
+            <ol>
+              <li>Leé la misión resaltada en violeta.</li>
+              <li>Arrastrá el bloque que dice el ejemplo desde la izquierda hasta la zona del medio, y completá lo que dice adentro.</li>
+              <li>Mirá la vista previa: cuando está bien, la misión se tilda ✓ sola.</li>
+            </ol>
+          </div>
           {all &&
             (usedSolution ? (
               <div className="reto-win is-soft">Todas las misiones están en verde, pero como cargaste la solución este reto no cuenta. ¡Probalo de nuevo desde cero!</div>
@@ -299,12 +307,14 @@ function Editor({ mode, reto, onDone }: { mode: string; reto?: BReto; onDone: (i
           <ol className="bq-missions">
             {reto.misiones.map((m, i) => {
               const isDone = !!results?.[i];
+              const isNext = !isDone && reto.misiones.findIndex((_, k) => !results?.[k]) === i;
               return (
-                <li key={i} className={`reto-mission${isDone ? " is-done" : ""}`}>
+                <li key={i} className={`reto-mission${isDone ? " is-done" : ""}${isNext ? " is-next" : ""}`}>
                   <span className="reto-check">{isDone ? "✓" : i + 1}</span>
                   <div className="reto-mission-body">
+                    {isNext && <span className="reto-now">👉 Ahora te toca esta</span>}
                     <p>{m.t}</p>
-                    {!isDone && m.hint && (
+                    {!isDone && m.hint && !isNext && (
                       <button
                         type="button"
                         className="reto-hint-btn"
@@ -317,10 +327,16 @@ function Editor({ mode, reto, onDone }: { mode: string; reto?: BReto; onDone: (i
                           })
                         }
                       >
-                        {hints.has(i) ? "ocultar pista" : "💡 pista"}
+                        {hints.has(i) ? "ocultar ejemplo" : "💡 ver ejemplo"}
                       </button>
                     )}
-                    {!isDone && hints.has(i) && m.hint && <p className="reto-hint">{m.hint}</p>}
+                    {!isDone && (isNext || hints.has(i)) && m.hint && (
+                      <p className="reto-hint">
+                        <span className="reto-hint-label">Ejemplo:</span>
+                        {"\n"}
+                        {m.hint}
+                      </p>
+                    )}
                   </div>
                 </li>
               );

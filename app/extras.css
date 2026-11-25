@@ -1297,6 +1297,45 @@ textarea::placeholder {
   margin: 0 0 14px;
   max-width: 860px;
 }
+.reto-how {
+  margin: 0 0 14px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(196, 139, 255, 0.08);
+  border: 1px solid rgba(196, 139, 255, 0.25);
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+.reto-how b {
+  color: var(--ink);
+}
+.reto-how ol {
+  margin: 6px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 3px;
+}
+.reto-mission.is-next {
+  border-color: var(--violet-soft);
+  background: rgba(196, 139, 255, 0.12);
+  box-shadow: 0 0 0 2px rgba(196, 139, 255, 0.25);
+  font-size: 14px;
+}
+.reto-mission.is-next .reto-check {
+  background: var(--violet-soft);
+  color: #1a0b3a;
+}
+.reto-now {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--violet-soft);
+  margin-bottom: 3px;
+}
+.reto-hint-label {
+  font-weight: 700;
+  color: var(--ink);
+}
 .reto-win {
   padding: 14px 18px;
   border-radius: 14px;
