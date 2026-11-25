@@ -25,12 +25,34 @@ const BRIDGE = `<script>
     var t = s[s.length - 1].textContent;
     return t.replace(/\\/\\*[\\s\\S]*?\\*\\//g, "").replace(/(^|[^:])\\/\\/.*$/gm, "$1");
   };
+  // alert() sin trabar la pantalla: se dibuja como un cartelito arriba (así no molesta al editar).
+  window.alert = function(msg){
+    try {
+      var caja = document.createElement("div");
+      caja.style.cssText = "position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:2147483647;background:#fff;color:#111;border:1px solid #bbb;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:12px 14px;font:14px sans-serif;max-width:85%;text-align:left;";
+      var tit = document.createElement("div");
+      tit.textContent = "Alerta de la página";
+      tit.style.cssText = "font-size:11px;color:#777;margin-bottom:6px;";
+      var txt = document.createElement("div");
+      txt.textContent = String(msg);
+      var ok = document.createElement("button");
+      ok.textContent = "Aceptar";
+      ok.style.cssText = "margin-top:10px;float:right;padding:5px 14px;border:0;border-radius:6px;background:#2563eb;color:#fff;cursor:pointer;";
+      ok.onclick = function(){ caja.remove(); };
+      caja.appendChild(tit); caja.appendChild(txt); caja.appendChild(ok);
+      (document.body || document.documentElement).appendChild(caja);
+      setTimeout(function(){ if (caja.parentNode) caja.remove(); }, 6000);
+    } catch (e) {}
+  };
+  // __rule("texto", /re/): el selector CONTIENE el texto. __rule("=button", /re/): el selector ES exactamente ese.
   window.__rule = function(sel, re){
+    var exacto = sel.charAt(0) === "=";
+    var clave = exacto ? sel.slice(1) : sel;
     function walk(rules){
       for (var i = 0; i < rules.length; i++) {
         var r = rules[i];
         var name = r.selectorText || (r.conditionText !== undefined ? "@media " + r.conditionText : "");
-        if (name.indexOf(sel) >= 0 && re.test(r.cssText)) return true;
+        if ((exacto ? name === clave : name.indexOf(clave) >= 0) && re.test(r.cssText)) return true;
         if (r.cssRules && walk(r.cssRules)) return true;
       }
       return false;

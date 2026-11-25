@@ -87,6 +87,7 @@ export default function Retos() {
                   {l}
                 </span>
               ))}
+              {r.ai && <span className="reto-tag">IA</span>}
             </span>
             <span className="reto-card-meta">
               {"⭐".repeat(r.nivel)} · {r.minutos} · {r.misiones.length} misiones
@@ -259,17 +260,21 @@ function RetoView({ reto, onBack, onDone }: { reto: Reto; onBack: () => void; on
         <ol className="reto-missions">
           {reto.misiones.map((m, i) => {
             const isDone = !!results?.[i];
+            // En los retos "con la IA" la pista es el prompt para pedírselo.
+            const hintText = reto.ai
+              ? `Pedile a la IA algo así: «${m.t}». Pegá el código en script.js y fijate si se tilda.`
+              : m.hint;
             return (
               <li key={i} className={`reto-mission${isDone ? " is-done" : ""}`}>
                 <span className="reto-check">{isDone ? "✓" : i + 1}</span>
                 <div className="reto-mission-body">
                   <p>{m.t}</p>
-                  {!isDone && m.hint && (
+                  {!isDone && hintText && (
                     <button type="button" className="reto-hint-btn" onClick={() => toggleHint(i)}>
                       {hints.has(i) ? "ocultar pista" : "💡 pista"}
                     </button>
                   )}
-                  {!isDone && hints.has(i) && m.hint && <p className="reto-hint">{m.hint}</p>}
+                  {!isDone && hints.has(i) && hintText && <p className="reto-hint">{hintText}</p>}
                 </div>
               </li>
             );

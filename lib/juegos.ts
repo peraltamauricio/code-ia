@@ -87,26 +87,14 @@ const allQuiz: QuizQ[] = [
 
   { cat: "web", q: "¿Qué atajo COPIA lo que seleccionaste?", opts: ["Ctrl + C", "Ctrl + V", "Ctrl + S"], ok: 0, why: "Ctrl+C copia y Ctrl+V pega." },
   { cat: "web", q: "¿Qué atajo PEGA?", opts: ["Ctrl + V", "Ctrl + C", "Ctrl + Z"], ok: 0, why: "Ctrl+V pega lo que copiaste." },
-  // ---------- JavaScript (aparece cuando se habilita la Clase 7) ----------
-  { cat: "js", q: "¿Para qué sirve JavaScript?", opts: ["Para que la página HAGA cosas (botones, juegos)", "Para los colores", "Para los títulos"], ok: 0, why: "HTML = qué hay, CSS = cómo se ve, JS = qué hace." },
-  { cat: "js", q: "¿Cómo se llama el archivo de JavaScript que usamos?", opts: ["script.js", "style.css", "index.html"], ok: 0, why: "script.js, y se conecta con <script src=\"script.js\">." },
+  // ---------- JavaScript (solo lo básico: lo que vimos es poco y casi todo con la IA) ----------
+  { cat: "js", q: "¿Para qué sirve JavaScript en una página?", opts: ["Para que la página HAGA cosas (botones, juegos)", "Para los colores", "Para los títulos"], ok: 0, why: "HTML = qué hay, CSS = cómo se ve, JS = qué hace." },
+  { cat: "js", q: "¿Cómo se llama el archivo de JavaScript que usamos?", opts: ["script.js", "style.css", "index.html"], ok: 0, why: "script.js, y se conecta al HTML con <script src=\"script.js\">." },
+  { cat: "js", q: "¿Qué hace alert(\"Hola\")?", opts: ["Muestra un cartelito con Hola", "Pinta la página de rojo", "Borra la página"], ok: 0, why: "alert muestra un cartel del navegador con el texto que le pasás." },
   { cat: "js", q: "¿Qué hace console.log(\"hola\")?", opts: ["Escribe hola en la consola (F12)", "Pone hola en la pantalla grande", "Nada"], ok: 0, why: "Sirve para ver qué está pasando adentro del código." },
-  { cat: "js", q: "¿Qué evento usamos cuando tocan un botón?", opts: ["click", "hover", "color"], ok: 0, why: "addEventListener(\"click\", ...) = cuando hagan click, hacé esto." },
-  { cat: "js", q: "¿Qué hace classList.toggle(\"oscuro\")?", opts: ["Prende y apaga la clase, como un interruptor", "Borra la página", "Cambia la letra"], ok: 0, why: "Ideal para modo oscuro o el corazón de me gusta." },
-  { cat: "js", q: "¿Qué hace alert(\"Hola\")?", opts: ["Muestra un cartelito con Hola", "Escribe Hola en la consola", "Cambia el título de la página"], ok: 0, why: "alert muestra un cartel del navegador con el texto que le pasás." },
-  { cat: "js", q: "¿Cómo BUSCÁS el elemento que tiene id=\"boton\"?", opts: ["document.querySelector(\"#boton\")", "document.buscar(boton)", "document.get(\"boton\")"], ok: 0, why: "querySelector busca con los mismos selectores que el CSS: # para id y . para clase." },
-  { cat: "js", q: "¿Qué hace elemento.addEventListener(\"click\", ...)?", opts: ["Queda escuchando y, cuando lo tocan, hace algo", "Hace click solo, una vez", "Borra el elemento"], ok: 0, why: "Es la parte de ESCUCHAR de la receta: buscar → escuchar → hacer." },
-  { cat: "js", q: "¿Cómo cambiás el texto de un elemento?", opts: ["elemento.textContent = \"Hola\"", "elemento.color = \"Hola\"", "elemento.hola()"], ok: 0, why: "textContent es el texto que tiene adentro el elemento." },
-  { cat: "js", q: "Tocás dos veces seguidas un botón con classList.toggle(\"oscuro\"). ¿Cómo queda la página?", opts: ["Como estaba al principio", "Más oscura todavía", "Se rompe"], ok: 0, why: "toggle es un interruptor: la primera vez prende la clase y la segunda la apaga." },
-  { cat: "js", q: "¿Qué es let puntos = 0?", opts: ["Una variable: una cajita que guarda el 0", "Un título", "Una imagen"], ok: 0, why: "let crea una variable. Después podés cambiar lo que guarda." },
-  { cat: "js", q: "¿Qué hace puntos++?", opts: ["Le suma 1 a puntos", "Lo multiplica por 2", "Lo borra"], ok: 0, why: "++ suma 1. Es lo mismo que puntos = puntos + 1." },
-  { cat: "js", q: "¿Para qué sirve if / else?", opts: ["Para decidir: si pasa algo hace una cosa y si no, otra", "Para repetir algo muchas veces", "Para guardar datos"], ok: 0, why: "Por ejemplo: si el corazón está blanco lo pongo rojo, si no, lo vuelvo a blanco." },
-  { cat: "js", q: "¿Qué significa === en if (a === b)?", opts: ["Es igual a", "Es distinto de", "Guardá b en a"], ok: 0, why: "=== compara. Un solo = guarda un valor." },
-  { cat: "js", q: "¿Qué hace querySelectorAll(\".corazon\")?", opts: ["Busca TODOS los elementos con esa clase", "Busca solo el primero", "Borra los corazones"], ok: 0, why: "Con All trae a todos, y después los recorrés con forEach." },
-  { cat: "js", q: "¿Qué hace forEach con un grupo de corazones?", opts: ["Hace lo mismo con cada uno, de a uno", "Los borra", "Solo toca el primero"], ok: 0, why: "Es como decir: a cada corazón, hacele esto." },
-  { cat: "js", q: "¿Qué devuelve Math.random()?", opts: ["Un número al azar entre 0 y 1", "Siempre 1", "Una palabra al azar"], ok: 0, why: "Multiplicándolo y redondeando con Math.floor armás, por ejemplo, un número del 1 al 10." },
-  { cat: "js", q: "¿Dónde conviene poner <script src=\"script.js\"> en el HTML?", opts: ["Al final del <body>", "Dentro del <title>", "Antes de <html>"], ok: 0, why: "Al final, así cuando el JavaScript corre, la página ya está armada." },
-  { cat: "js", q: "El botón no hace nada. ¿Qué hacés primero?", opts: ["F12 → Console y leo el error en rojo", "Borro todo y empiezo de nuevo", "Apago la compu"], ok: 0, why: "La consola te dice qué falló y en qué línea." },
+  { cat: "js", q: "La IA te da código de JavaScript que no entendés. ¿Qué conviene hacer?", opts: ["Pedirle que me lo explique línea por línea", "Copiarlo sin mirar", "Borrarlo"], ok: 0, why: "La IA es copiloto: el que entiende y decide sos vos." },
+  { cat: "js", q: "¿Qué hace que un botón haga algo cuando lo tocás?", opts: ["JavaScript", "Solo el CSS", "El título"], ok: 0, why: "Los colores los pone el CSS; lo que PASA al tocar lo hace JavaScript." },
+  { cat: "js", q: "El botón que te dio la IA no hace nada. ¿Qué hacés primero?", opts: ["F12 → Console y leo el error en rojo", "Apago la compu", "Borro todo"], ok: 0, why: "La consola te dice qué falló, y ese error se lo podés pegar a la IA." },
 ];
 
 /** Las preguntas que se pueden jugar hoy (sin JS hasta la Clase 7). */
@@ -121,7 +109,7 @@ export const roundSize = (cat: QuizPick) => (cat === "repaso" ? QUIZ_REPASO : QU
 
 /**
  * Elige los índices (dentro de `quiz`) de las preguntas de una partida.
- * - "repaso": equilibrado, 7 de HTML, 7 de CSS y 6 de JavaScript.
+ * - "repaso": 9 de HTML, 9 de CSS y 2 de JavaScript (se vio muy poco).
  * - "todo" (Mezcla): HTML, CSS y compu; JavaScript casi no entra (máximo 1).
  * - un tema: preguntas de ese tema.
  */
@@ -129,9 +117,9 @@ export function pickQuestions(cat: QuizPick, n = QUIZ_ROUND, rand: <T>(a: T[]) =
   const idxs = quiz.map((_, i) => i);
   const of = (c: QuizCat) => rand(idxs.filter((i) => quiz[i].cat === c));
   if (cat === "repaso") {
-    const js = of("js").slice(0, 6);
-    const html = of("html").slice(0, 7);
-    const css = of("css").slice(0, 7);
+    const js = of("js").slice(0, 2);
+    const html = of("html").slice(0, 9);
+    const css = of("css").slice(0, 9);
     const chosen = [...html, ...css, ...js];
     // Si faltaran de alguna (por ejemplo, JavaScript todavía no habilitado), se completa con otras.
     const rest = rand(idxs.filter((i) => !chosen.includes(i) && (quiz[i].cat !== "js" || js.length > 0)));
@@ -166,14 +154,9 @@ const allBugs: Bug[] = [
   { title: "Se rompe lo de abajo", lang: "css", lines: [".pin {", "  margin: 10px", "  border-radius: 16px;", "}"], bad: 1, why: "Falta el punto y coma al final de margin: 10px.", fix: "  margin: 10px;" },
   { title: "El hover no anda", lang: "css", lines: [".tarjeta:hober {", "  transform: scale(1.05);", "}"], bad: 0, why: "Es :hover, con v.", fix: ".tarjeta:hover {" },
   { title: "El fondo no cambia", lang: "css", lines: ["body {", "  background-color: azul;", "}"], bad: 1, why: "Los colores van en inglés: blue (o en código, como #2563eb).", fix: "  background-color: blue;" },
-  { title: "El botón no hace nada", lang: "js", lines: ["const boton = document.querySelector(\"#like\");", "boton.addEventListener(\"clik\", () => {", "  boton.classList.toggle(\"activo\");", "});"], bad: 1, why: "El evento se llama \"click\", con c-k.", fix: "boton.addEventListener(\"click\", () => {" },
-  { title: "No encuentra el elemento", lang: "js", lines: ["// en el HTML: <div class=\"marcador\">0</div>", "const marcador = document.querySelector(\"marcador\");", "marcador.textContent = \"10\";"], bad: 1, why: "Le falta el punto: querySelector(\".marcador\") igual que en CSS.", fix: "const marcador = document.querySelector(\".marcador\");" },
-  { title: "El botón no responde", lang: "js", lines: ["const boton = document.querySelector(\"#guardar\");", "boton.addEventListner(\"click\", () => {", "  boton.textContent = \"Guardado ✓\";", "});"], bad: 1, why: "Se escribe addEventListener (con e antes de la r).", fix: "boton.addEventListener(\"click\", () => {" },
-  { title: "El corazón siempre queda rojo", lang: "js", lines: ["corazon.addEventListener(\"click\", () => {", "  if (corazon.textContent = \"🤍\") {", "    corazon.textContent = \"❤️\";", "  }", "});"], bad: 1, why: "Con un solo = estás GUARDANDO un valor. Para comparar se usa ===.", fix: "  if (corazon.textContent === \"🤍\") {" },
-  { title: "El texto no cambia", lang: "js", lines: ["const mensaje = document.querySelector(\"#mensaje\");", "boton.addEventListener(\"click\", () => {", "  mensaje.textcontent = \"¡Hola!\";", "});"], bad: 2, why: "JavaScript distingue mayúsculas: es textContent, con la C mayúscula.", fix: "  mensaje.textContent = \"¡Hola!\";" },
-  { title: "Error: querySelector is not a function", lang: "js", lines: ["const boton = document.queryselector(\"#like\");", "boton.addEventListener(\"click\", () => {", "  boton.classList.toggle(\"activo\");", "});"], bad: 0, why: "Es querySelector con la S mayúscula.", fix: "const boton = document.querySelector(\"#like\");" },
-  { title: "No encuentra el botón", lang: "js", lines: ["// en el HTML: <button id=\"guardar\">Guardar</button>", "const boton = document.querySelector(\"#guardar-btn\");", "boton.textContent = \"Listo\";"], bad: 1, why: "El id del HTML es guardar, pero el JS busca guardar-btn. Tienen que ser iguales.", fix: "const boton = document.querySelector(\"#guardar\");" },
-  { title: "Los puntos nunca suben", lang: "js", lines: ["let puntos = 0;", "boton.addEventListener(\"click\", () => {", "  puntos + 1;", "  marcador.textContent = puntos;", "});"], bad: 2, why: "puntos + 1 calcula pero no guarda el resultado. Tiene que ser puntos++.", fix: "  puntos++;" },
+  { title: "El cartel no aparece", lang: "js", lines: ["alert(Hola);"], bad: 0, why: "El texto va entre comillas: alert(\"Hola\");", fix: "alert(\"Hola\");" },
+  { title: "Error: Unexpected end of input", lang: "js", lines: ["alert(\"¡Bienvenido a mi Pinterest!\";"], bad: 0, why: "Falta cerrar el paréntesis: alert(\"...\");", fix: "alert(\"¡Bienvenido a mi Pinterest!\");" },
+  { title: "El cartel dice cualquier cosa", lang: "js", lines: ["// Quiero que diga: Gracias por visitar mi página", "alert(\"Gracais por visitar mi pagina\");"], bad: 1, why: "Hay errores de escritura en el texto: «Gracias» y «página».", fix: "alert(\"Gracias por visitar mi página\");" },
 ];
 
 export const bugs: Bug[] = allBugs.filter((b) => b.lang !== "js" || jsUnlocked);
@@ -195,11 +178,7 @@ export const memoPairs: { a: string; b: string }[] = [
   ...(jsUnlocked
     ? [
         { a: "alert()", b: "Muestra un cartel" },
-        { a: "click", b: "Cuando tocan el botón" },
-        { a: "querySelector", b: "Busca un elemento" },
-        { a: "toggle", b: "Prende y apaga una clase" },
-        { a: "if / else", b: "Si pasa algo… si no…" },
-        { a: "textContent", b: "El texto de un elemento" },
+        { a: "JavaScript", b: "Lo que hace la página" },
       ]
     : []),
 ];

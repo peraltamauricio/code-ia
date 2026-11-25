@@ -19,6 +19,8 @@ export type Reto = {
   intro: string;
   tab: "html" | "css" | "js";
   interactive?: boolean;
+  /** Reto "pedíselo a la IA": las pistas son prompts y no se exige escribir un código en particular. */
+  ai?: boolean;
   start: Code;
   misiones: Mision[];
   solution: Code;
@@ -257,288 +259,65 @@ header h1 { margin: 0; font-size: 20px; color: #e60023; }
 
   // ------------------------------------------------------------------
   {
-    id: "botones",
-    icon: "🕹️",
-    title: "Que los botones hagan algo",
-    langs: ["JS", "CSS"],
-    nivel: 2,
-    minutos: "25-35 min",
+    id: "alert",
+    icon: "💬",
+    title: "Cartel con alert",
+    langs: ["HTML", "CSS", "JS"],
+    nivel: 1,
+    minutos: "15-20 min",
     intro:
-      "Hay cinco botones en el HTML que todavía no hacen nada. Con JavaScript dales vida: una alerta, cambiar texto y color, modo oscuro y un contador. Receta: BUSCAR → ESCUCHAR → HACER.",
+      "Tu primer JavaScript: el alert. El código de JavaScript ya está armado, vos cambiás los textos de los carteles y le sumás estilo al botón con CSS. Las alertas aparecen arriba en la vista previa.",
     tab: "js",
-    interactive: true,
     start: {
-      html: `<h2>Reto JavaScript</h2>
-<p id="mensaje">Hola, soy un mensaje.</p>
-
-<button id="saludo">👋 Saludar</button>
-<button id="cambiar-texto">✏️ Cambiar texto</button>
-<button id="cambiar-color">🎨 Cambiar color</button>
-<button id="fondo">🌙 Fondo oscuro</button>
-
-<hr>
-<p>Contador: <b id="contador">0</b></p>
-<button id="sumar">+1</button>
-<p id="aviso"></p>`,
+      html: `<h1>🎁 Una sorpresa</h1>
+<p>Tocá el botón.</p>
+<button id="sorpresa">Tocame</button>`,
       css: `body { font-family: sans-serif; padding: 20px; }
-button { padding: 10px 14px; margin: 4px; cursor: pointer; }
+/* Con CSS: pintale el título de otro color y dale estilo al botón #sorpresa */
+
 `,
-      js: `// RETO 4 · Que los botones hagan algo
-// Receta: BUSCAR el botón → ESCUCHAR el click → HACER algo.
-// Ejemplo de cómo se escribe:
-//   const boton = document.querySelector("#id");
-//   boton.addEventListener("click", () => { ... });
+      js: `// RETO · Cartel con alert
+// Este código ya está armado. Tu trabajo: cambiar los textos de las alertas por los tuyos.
+
+// 1) Este cartel aparece apenas se abre la página:
+alert("¡Bienvenido!");
+
+// 2) Este cartel aparece cuando tocás el botón:
+document.querySelector("#sorpresa").addEventListener("click", () => {
+  alert("¡Sorpresa!");
+});
+
+// 3) Sumá vos un tercer alert(...) acá abajo con otro mensaje:
 
 `,
     },
     misiones: [
-      { t: "«Saludar» muestra una alerta con alert(...) al hacer click", test: raw`/alert *\(/.test(__js()) && /addEventListener *\( *["']click["']/.test(__js())`, hint: "saludo.addEventListener(\"click\", () => { alert(\"¡Hola!\"); });" },
-      { t: "«Cambiar texto» cambia el texto del párrafo #mensaje (textContent)", test: raw`(function(){var m=document.querySelector('#mensaje');var a=m.textContent;document.querySelector('#cambiar-texto').click();return m.textContent!==a})()`, hint: "mensaje.textContent = \"¡Cambié el texto!\";" },
-      { t: "«Cambiar color» cambia el color del mensaje (style.color)", test: raw`(function(){var m=document.querySelector('#mensaje');var a=m.getAttribute('style')+'|'+m.className;document.querySelector('#cambiar-color').click();return a!==m.getAttribute('style')+'|'+m.className})()`, hint: "mensaje.style.color = \"orchid\";" },
-      { t: "«Fondo oscuro» prende y apaga la clase oscuro del body (classList.toggle)", test: raw`(function(){var b=document.querySelector('#fondo');b.click();var a=document.body.classList.contains('oscuro');b.click();var c=document.body.classList.contains('oscuro');return a&&!c})()`, hint: "document.body.classList.toggle(\"oscuro\");" },
-      { t: "En el CSS, la clase .oscuro cambia el fondo (background)", test: raw`__rule('.oscuro', /background/)`, hint: "body.oscuro { background-color: #111; color: white; }  (andá a la pestaña style.css)" },
-      { t: "Guardás la cuenta en una variable con let", test: raw`/(^|[^a-z])let +[a-z_]/i.test(__js())`, hint: "let cuenta = 0;" },
-      { t: "Cada click en «+1» suma 1 al número de #contador", test: raw`(function(){var b=document.querySelector('#sumar'),n=document.querySelector('#contador');var a=parseInt(n.textContent);b.click();b.click();return parseInt(n.textContent)===a+2})()`, hint: "cuenta++;  y después  contador.textContent = cuenta;" },
-      { t: "Con un if: al llegar a 5 o más, se escribe un mensaje en #aviso", test: raw`(function(){var b=document.querySelector('#sumar'),m=document.querySelector('#aviso');for(var i=0;i<6;i++)b.click();return /(^|[^a-z])if *\(/.test(__js())&&m.textContent.trim().length>0})()`, hint: "if (cuenta >= 5) { aviso.textContent = \"¡Llegaste a 5!\"; }" },
+      { t: "Cambiá el texto de la alerta de bienvenida (que no diga «¡Bienvenido!»)", test: raw`(function(){var m=__js().match(/^alert *\( *"([^"]*)"/m);return !!m&&m[1].trim().length>2&&m[1].trim()!=="¡Bienvenido!"})()`, hint: "Cambiá lo que está entre comillas: alert(\"Hola, soy Ana\");" },
+      { t: "Cambiá el texto de la alerta del botón (que no diga «¡Sorpresa!»)", test: raw`(function(){var m=__js().match(/addEventListener[\s\S]*?alert *\( *"([^"]*)"/);return !!m&&m[1].trim().length>2&&m[1].trim()!=="¡Sorpresa!"})()`, hint: "Es el alert que está adentro de las llaves { } del botón." },
+      { t: "Sumá un tercer alert(...) con otro mensaje", test: raw`(__js().match(/alert *\(/g)||[]).length>=3`, hint: "Escribí otra línea al final:  alert(\"Otro mensaje\");" },
+      { t: "Con CSS, pintá el título <h1> de otro color", test: raw`getComputedStyle(document.querySelector('h1')).color!=='rgb(0, 0, 0)'`, hint: "h1 { color: purple; }" },
+      { t: "Con CSS, dale al botón (#sorpresa) un color de fondo y esquinas redondeadas", test: raw`__rule('#sorpresa', /background/) && __rule('#sorpresa', /border-radius/)`, hint: "#sorpresa { background-color: orange; border-radius: 20px; border: none; padding: 10px 18px; }" },
     ],
     solution: {
-      html: `<h2>Reto JavaScript</h2>
-<p id="mensaje">Hola, soy un mensaje.</p>
-
-<button id="saludo">👋 Saludar</button>
-<button id="cambiar-texto">✏️ Cambiar texto</button>
-<button id="cambiar-color">🎨 Cambiar color</button>
-<button id="fondo">🌙 Fondo oscuro</button>
-
-<hr>
-<p>Contador: <b id="contador">0</b></p>
-<button id="sumar">+1</button>
-<p id="aviso"></p>`,
+      html: `<h1>🎁 Una sorpresa</h1>
+<p>Tocá el botón.</p>
+<button id="sorpresa">Tocame</button>`,
       css: `body { font-family: sans-serif; padding: 20px; }
-button { padding: 10px 14px; margin: 4px; cursor: pointer; }
-body.oscuro { background-color: #111; color: white; }
-`,
-      js: `// 1. Alerta
-const saludo = document.querySelector("#saludo");
-saludo.addEventListener("click", () => {
-  alert("¡Hola! 👋");
+h1 { color: purple; }
+#sorpresa {
+  background-color: orange;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 18px;
+  cursor: pointer;
+}`,
+      js: `alert("Hola, soy Ana. ¡Bienvenidos a mi página!");
+
+document.querySelector("#sorpresa").addEventListener("click", () => {
+  alert("¡Te dije que había una sorpresa! 🎉");
 });
 
-// 2. Cambiar el texto
-const mensaje = document.querySelector("#mensaje");
-document.querySelector("#cambiar-texto").addEventListener("click", () => {
-  mensaje.textContent = "¡Cambié el texto con JavaScript!";
-});
-
-// 3. Cambiar el color
-document.querySelector("#cambiar-color").addEventListener("click", () => {
-  mensaje.style.color = "orchid";
-});
-
-// 4. Fondo oscuro (interruptor)
-document.querySelector("#fondo").addEventListener("click", () => {
-  document.body.classList.toggle("oscuro");
-});
-
-// 5. Contador
-let cuenta = 0;
-const contador = document.querySelector("#contador");
-const aviso = document.querySelector("#aviso");
-document.querySelector("#sumar").addEventListener("click", () => {
-  cuenta++;
-  contador.textContent = cuenta;
-  if (cuenta >= 5) {
-    aviso.textContent = "¡Llegaste a 5!";
-  }
-});`,
-    },
-  },
-
-  // ------------------------------------------------------------------
-  {
-    id: "corazones",
-    icon: "❤️",
-    title: "Pinterest con corazones",
-    langs: ["JS"],
-    nivel: 2,
-    minutos: "30-40 min",
-    intro:
-      "Lo mismo que hiciste en tu Pinterest de la clase: cada pin tiene un corazón 🤍 que se pone rojo ❤️, hay un contador de me gusta y un modo oscuro. Pero esta vez con misiones paso a paso.",
-    tab: "js",
-    interactive: true,
-    start: {
-      html: `<button id="oscuro">🌙 Modo oscuro</button>
-<p>❤️ Me gusta: <span id="total">0</span></p>
-
-<div class="fila">
-  <div class="pin"><img src="https://picsum.photos/seed/c1/200/250" alt="Pin 1"><button class="corazon">🤍</button></div>
-  <div class="pin"><img src="https://picsum.photos/seed/c2/200/250" alt="Pin 2"><button class="corazon">🤍</button></div>
-  <div class="pin"><img src="https://picsum.photos/seed/c3/200/250" alt="Pin 3"><button class="corazon">🤍</button></div>
-  <div class="pin"><img src="https://picsum.photos/seed/c4/200/250" alt="Pin 4"><button class="corazon">🤍</button></div>
-</div>`,
-      css: `body { font-family: sans-serif; padding: 16px; }
-.fila { display: flex; gap: 10px; flex-wrap: wrap; }
-.pin { position: relative; width: 140px; }
-.pin img { width: 100%; border-radius: 14px; display: block; }
-.corazon {
-  position: absolute; top: 8px; right: 8px;
-  width: 36px; height: 36px;
-  border: none; border-radius: 50%;
-  background: white; font-size: 16px; cursor: pointer;
-}
-`,
-      js: `// RETO 5 · Pinterest con corazones
-// Hay 4 corazones con class="corazon". Recordá: BUSCAR → ESCUCHAR → HACER.
-// Para buscar VARIOS elementos usá querySelectorAll y recorrelos con forEach.
-
-`,
-    },
-    misiones: [
-      { t: "Buscás todos los corazones con querySelectorAll y escuchás el click con addEventListener", test: raw`/querySelectorAll *\(/.test(__js()) && /addEventListener *\(/.test(__js())`, hint: "const corazones = document.querySelectorAll(\".corazon\");" },
-      { t: "Al tocar un corazón pasa de 🤍 a ❤️", test: raw`(function(){var c=document.querySelectorAll('.corazon')[0];var a=c.textContent;c.click();var b=c.textContent;c.click();return a.indexOf('❤')<0&&b.indexOf('❤')>=0})()`, hint: "corazones.forEach((corazon) => { corazon.addEventListener(\"click\", () => { ... }); });" },
-      { t: "Al tocarlo de nuevo vuelve a 🤍 (con if / else)", test: raw`(function(){var c=document.querySelectorAll('.corazon')[1];var a=c.textContent;c.click();var b=c.textContent;c.click();return b!==a&&c.textContent===a})()`, hint: "if (corazon.textContent === \"🤍\") { ... } else { ... }" },
-      { t: "Funciona en TODOS los corazones, no solo en el primero", test: raw`(function(){var cs=document.querySelectorAll('.corazon');if(cs.length<4)return false;for(var i=0;i<cs.length;i++){var a=cs[i].textContent;cs[i].click();if(cs[i].textContent===a)return false;cs[i].click();}return true})()`, hint: "Si usás forEach sobre todos los corazones, ya funciona en todos." },
-      { t: "El contador #total suma 1 por cada me gusta", test: raw`(function(){var t=document.querySelector('#total');var cs=document.querySelectorAll('.corazon');var a=parseInt(t.textContent);cs[0].click();cs[1].click();var b=parseInt(t.textContent);cs[0].click();cs[1].click();return b===a+2})()`, hint: "let meGusta = 0;  y al dar me gusta:  meGusta++;  total.textContent = meGusta;" },
-      { t: "Y resta 1 cuando sacás el me gusta (el total vuelve a bajar)", test: raw`(function(){var t=document.querySelector('#total');var c=document.querySelectorAll('.corazon')[2];var a=parseInt(t.textContent);c.click();var b=parseInt(t.textContent);c.click();var d=parseInt(t.textContent);return b===a+1&&d===a})()`, hint: "En el else: meGusta--; y volvés a escribir total.textContent = meGusta;" },
-      { t: "El botón #oscuro prende y apaga la clase oscuro del body (toggle)", test: raw`(function(){var b=document.querySelector('#oscuro');b.click();var a=document.body.classList.contains('oscuro');b.click();var c=document.body.classList.contains('oscuro');return a&&!c})()`, hint: "document.body.classList.toggle(\"oscuro\");" },
-      { t: "En el CSS: la clase .oscuro cambia el fondo y el corazón tiene efecto :hover", test: raw`__rule('.oscuro', /background/) && __rule('.corazon:hover', /./)`, hint: "body.oscuro { background-color: #111; color: white; }  y  .corazon:hover { transform: scale(1.15); }" },
-    ],
-    solution: {
-      html: `<button id="oscuro">🌙 Modo oscuro</button>
-<p>❤️ Me gusta: <span id="total">0</span></p>
-
-<div class="fila">
-  <div class="pin"><img src="https://picsum.photos/seed/c1/200/250" alt="Pin 1"><button class="corazon">🤍</button></div>
-  <div class="pin"><img src="https://picsum.photos/seed/c2/200/250" alt="Pin 2"><button class="corazon">🤍</button></div>
-  <div class="pin"><img src="https://picsum.photos/seed/c3/200/250" alt="Pin 3"><button class="corazon">🤍</button></div>
-  <div class="pin"><img src="https://picsum.photos/seed/c4/200/250" alt="Pin 4"><button class="corazon">🤍</button></div>
-</div>`,
-      css: `body { font-family: sans-serif; padding: 16px; }
-.fila { display: flex; gap: 10px; flex-wrap: wrap; }
-.pin { position: relative; width: 140px; }
-.pin img { width: 100%; border-radius: 14px; display: block; }
-.corazon {
-  position: absolute; top: 8px; right: 8px;
-  width: 36px; height: 36px;
-  border: none; border-radius: 50%;
-  background: white; font-size: 16px; cursor: pointer;
-}
-.corazon:hover { transform: scale(1.15); }
-body.oscuro { background-color: #111; color: white; }
-`,
-      js: `const corazones = document.querySelectorAll(".corazon");
-const total = document.querySelector("#total");
-let meGusta = 0;
-
-corazones.forEach((corazon) => {
-  corazon.addEventListener("click", () => {
-    if (corazon.textContent === "🤍") {
-      corazon.textContent = "❤️";
-      meGusta++;
-    } else {
-      corazon.textContent = "🤍";
-      meGusta--;
-    }
-    total.textContent = meGusta;
-  });
-});
-
-document.querySelector("#oscuro").addEventListener("click", () => {
-  document.body.classList.toggle("oscuro");
-});`,
-    },
-  },
-
-  // ------------------------------------------------------------------
-  {
-    id: "adivina",
-    icon: "🎯",
-    title: "Adiviná el número",
-    langs: ["JS"],
-    nivel: 3,
-    minutos: "40-50 min",
-    intro:
-      "Armá un juego completo: la compu piensa un número del 1 al 10 y vos tenés que adivinarlo, con pistas, contador de intentos y botón de reiniciar. Es el reto más difícil de JavaScript: usá la IA para pedir pistas, no soluciones.",
-    tab: "js",
-    interactive: true,
-    start: {
-      html: `<h1>🎯 Adiviná el número</h1>
-<p>Pensé un número del 1 al 10.</p>
-
-<input id="numero" type="number" min="1" max="10" placeholder="Tu número">
-<button id="adivinar">Adivinar</button>
-<button id="reiniciar">Jugar de nuevo</button>
-
-<p id="resultado"></p>
-<p>Intentos: <b id="intentos">0</b></p>`,
-      css: `body { font-family: sans-serif; padding: 20px; text-align: center; }
-input, button { padding: 10px 14px; font-size: 16px; }
-#resultado { font-size: 22px; min-height: 30px; }
-`,
-      js: `// RETO 6 · Adiviná el número
-// Ideas que vas a necesitar: Math.random(), Math.floor(), let, if / else if / else.
-// Un número al azar del 1 al 10:  Math.floor(Math.random() * 10) + 1
-// El valor de un input se lee con  input.value  (y es texto: usá Number(...)).
-
-`,
-    },
-    misiones: [
-      { t: "Pensás un número secreto al azar con Math.random() y Math.floor()", test: raw`/Math\.random *\(/.test(__js()) && /Math\.floor/.test(__js())`, hint: "let secreto = Math.floor(Math.random() * 10) + 1;" },
-      { t: "Al tocar «Adivinar» se escribe un mensaje en #resultado", test: raw`(function(){var i=document.querySelector('#numero'),b=document.querySelector('#adivinar'),m=document.querySelector('#resultado');i.value=5;b.click();return m.textContent.trim().length>0})()`, hint: "Buscá el botón, escuchá el click y escribí en resultado.textContent." },
-      { t: "Entre 0 y 10 hay exactamente UN número que dice «Ganaste»", test: raw`(function(){var i=document.querySelector('#numero'),b=document.querySelector('#adivinar'),m=document.querySelector('#resultado');var w=0;for(var k=0;k<=10;k++){i.value=k;b.click();if(/ganaste/i.test(m.textContent))w++}return w===1})()`, hint: "if (numero === secreto) { resultado.textContent = \"¡Ganaste! 🎉\"; }  (usá Number(input.value))" },
-      { t: "Los demás números dicen «mayor» o «menor» como pista", test: raw`(function(){var i=document.querySelector('#numero'),b=document.querySelector('#adivinar'),m=document.querySelector('#resultado');var h=0;for(var k=0;k<=10;k++){i.value=k;b.click();var t=m.textContent;if(!/ganaste/i.test(t)&&/mayor|menor/i.test(t))h++}return h===10})()`, hint: "Si el número que pusiste es menor que el secreto: «El número es mayor». Si es mayor: «El número es menor»." },
-      { t: "Usás else if para distinguir los tres casos (igual, menor, mayor)", test: raw`/else *if/.test(__js())`, hint: "if (...) { } else if (numero < secreto) { } else { }" },
-      { t: "Contás los intentos en #intentos (sube 1 en cada click)", test: raw`(function(){var b=document.querySelector('#adivinar'),i=document.querySelector('#numero'),n=document.querySelector('#intentos');var a=parseInt(n.textContent);i.value=3;b.click();b.click();return parseInt(n.textContent)===a+2})()`, hint: "let intentos = 0;  intentos++;  marcador.textContent = intentos;" },
-      { t: "Si el input está vacío avisa «Escribí un número» y no cuenta el intento", test: raw`(function(){var i=document.querySelector('#numero'),b=document.querySelector('#adivinar'),m=document.querySelector('#resultado'),n=document.querySelector('#intentos');i.value='';var a=n.textContent;b.click();return /escrib/i.test(m.textContent)&&n.textContent===a})()`, hint: "if (input.value === \"\") { resultado.textContent = \"Escribí un número\"; return; }" },
-      { t: "«Jugar de nuevo» vuelve los intentos a 0, vacía el mensaje y piensa otro número", test: raw`(function(){var r=document.querySelector('#reiniciar'),n=document.querySelector('#intentos'),m=document.querySelector('#resultado'),i=document.querySelector('#numero'),b=document.querySelector('#adivinar');i.value=4;b.click();var mid=m.textContent.trim().length>0&&parseInt(n.textContent)>0;r.click();return mid&&parseInt(n.textContent)===0&&m.textContent.trim()===''})()`, hint: "En el click de reiniciar: secreto = ...; intentos = 0; marcador.textContent = 0; resultado.textContent = \"\";" },
-    ],
-    solution: {
-      html: `<h1>🎯 Adiviná el número</h1>
-<p>Pensé un número del 1 al 10.</p>
-
-<input id="numero" type="number" min="1" max="10" placeholder="Tu número">
-<button id="adivinar">Adivinar</button>
-<button id="reiniciar">Jugar de nuevo</button>
-
-<p id="resultado"></p>
-<p>Intentos: <b id="intentos">0</b></p>`,
-      css: `body { font-family: sans-serif; padding: 20px; text-align: center; }
-input, button { padding: 10px 14px; font-size: 16px; }
-#resultado { font-size: 22px; min-height: 30px; }
-`,
-      js: `let secreto = Math.floor(Math.random() * 10) + 1;
-let intentos = 0;
-
-const input = document.querySelector("#numero");
-const resultado = document.querySelector("#resultado");
-const marcador = document.querySelector("#intentos");
-
-document.querySelector("#adivinar").addEventListener("click", () => {
-  if (input.value === "") {
-    resultado.textContent = "Escribí un número";
-    return;
-  }
-
-  const numero = Number(input.value);
-  intentos++;
-  marcador.textContent = intentos;
-
-  if (numero === secreto) {
-    resultado.textContent = "¡Ganaste! 🎉";
-  } else if (numero < secreto) {
-    resultado.textContent = "El número es mayor";
-  } else {
-    resultado.textContent = "El número es menor";
-  }
-});
-
-document.querySelector("#reiniciar").addEventListener("click", () => {
-  secreto = Math.floor(Math.random() * 10) + 1;
-  intentos = 0;
-  marcador.textContent = 0;
-  resultado.textContent = "";
-  input.value = "";
-});`,
+alert("Gracias por visitarme");`,
     },
   },
 
@@ -547,13 +326,12 @@ document.querySelector("#reiniciar").addEventListener("click", () => {
     id: "mini-portfolio",
     icon: "💼",
     title: "Mini portfolio",
-    langs: ["HTML", "CSS", "JS"],
+    langs: ["HTML", "CSS"],
     nivel: 3,
     minutos: "50-60 min",
     intro:
-      "El reto más largo: armá un mini portfolio con HTML, CSS y JavaScript juntos. Es un ensayo para el portfolio de verdad (que armás en /portfolio). Seguí las misiones de arriba hacia abajo.",
+      "El reto más largo: armá un mini portfolio con HTML y CSS. Es un ensayo para el portfolio de verdad (que armás en /portfolio). Seguí las misiones de arriba hacia abajo. Bonus: pedile a la IA un botón de modo oscuro.",
     tab: "html",
-    interactive: true,
     start: {
       html: `<!-- RETO 7 · Mini portfolio
      Armá tu portfolio completo. Las misiones te van diciendo qué sumar.
@@ -562,9 +340,7 @@ document.querySelector("#reiniciar").addEventListener("click", () => {
 `,
       css: `body { font-family: sans-serif; margin: 0; }
 `,
-      js: `// Acá va tu JavaScript (modo oscuro y saludo según la hora).
-
-`,
+      js: ``,
     },
     misiones: [
       { t: "Un <header> con tu nombre en un <h1>", test: raw`document.querySelector('header h1').textContent.trim().length>1`, hint: "<header><h1>Tu nombre</h1></header>" },
@@ -575,20 +351,15 @@ document.querySelector("#reiniciar").addEventListener("click", () => {
       { t: "Un <footer id=\"contacto\"> con un link de mail (href que empiece con mailto:)", test: raw`document.querySelector('footer a[href^="mailto:"]')`, hint: "<footer id=\"contacto\"><a href=\"mailto:tu@mail.com\">Escribime</a></footer>" },
       { t: "Las tarjetas están una al lado de otra con espacio entre ellas (display: flex o grid + gap)", test: raw`(function(){var c=document.querySelector('#proyectos .proyecto').parentElement;var s=getComputedStyle(c);return (s.display==='flex'||s.display==='grid')&&(parseFloat(s.gap)>=8||parseFloat(s.columnGap)>=8)})()`, hint: "Envolvé las tarjetas en un <div class=\"grilla\"> y en el CSS: .grilla { display: flex; gap: 12px; }" },
       { t: "Las tarjetas con esquinas redondeadas (8px o más) y con sombra o borde", test: raw`(function(){var s=getComputedStyle(document.querySelector('.proyecto'));return parseFloat(s.borderTopLeftRadius)>=8&&(s.boxShadow!=='none'||parseFloat(s.borderTopWidth)>0)})()`, hint: ".proyecto { border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); padding: 16px; }" },
-      { t: "Un botón #tema que prende y apaga la clase oscuro del body", test: raw`(function(){var b=document.querySelector('#tema');b.click();var a=document.body.classList.contains('oscuro');b.click();var c=document.body.classList.contains('oscuro');return a&&!c})()`, hint: "<button id=\"tema\">🌙</button> y en JS: document.body.classList.toggle(\"oscuro\");" },
-      { t: "En el CSS, la clase .oscuro cambia el fondo", test: raw`__rule('.oscuro', /background/)`, hint: "body.oscuro { background-color: #111; color: white; }" },
       { t: "Se adapta al celular con una regla @media", test: raw`__rule('@media', /./)`, hint: "@media (max-width: 600px) { .grilla { flex-direction: column; } }" },
-      { t: "Un saludo #saludo según la hora (getHours) que diga «Buenos días», «Buenas tardes» o «Buenas noches»", test: raw`/getHours *\(/.test(__js()) && /buen/i.test(document.querySelector('#saludo').textContent)`, hint: "const hora = new Date().getHours();  if (hora < 12) { saludo.textContent = \"Buenos días\"; } else if ... " },
     ],
     solution: {
       html: `<header>
   <h1>Ana García</h1>
-  <p id="saludo"></p>
   <nav>
     <a href="#sobre-mi">Sobre mí</a>
     <a href="#proyectos">Proyectos</a>
     <a href="#contacto">Contacto</a>
-    <button id="tema">🌙</button>
   </nav>
 </header>
 
@@ -634,24 +405,10 @@ section { padding: 20px; }
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 footer { padding: 20px; background: #eee; }
-body.oscuro { background-color: #111; color: white; }
 @media (max-width: 600px) {
   .grilla { flex-direction: column; }
 }`,
-      js: `const hora = new Date().getHours();
-const saludo = document.querySelector("#saludo");
-
-if (hora < 12) {
-  saludo.textContent = "Buenos días ☀️";
-} else if (hora < 20) {
-  saludo.textContent = "Buenas tardes 🌤️";
-} else {
-  saludo.textContent = "Buenas noches 🌙";
-}
-
-document.querySelector("#tema").addEventListener("click", () => {
-  document.body.classList.toggle("oscuro");
-});`,
+      js: ``,
     },
   },
 ];

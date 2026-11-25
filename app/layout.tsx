@@ -3,6 +3,7 @@ import { Chakra_Petch, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "./extras.css";
 import "./portfolio.css";
+import "./bloques.css";
 
 const display = Chakra_Petch({
   subsets: ["latin"],

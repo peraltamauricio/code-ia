@@ -1,0 +1,260 @@
+/* =====================================================================
+   BLOQUES ESTILO SCRATCH (/jugar → Bloques)
+   ===================================================================== */
+.bq-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.bq {
+  max-width: none;
+  padding: 18px;
+}
+.bq:hover {
+  transform: none;
+}
+.bq-reto {
+  margin-bottom: 16px;
+}
+.bq-missions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 8px;
+}
+.bq-grid {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+@media (max-width: 1000px) {
+  .bq-grid {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+  .bq-right {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 640px) {
+  .bq-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Paleta */
+.bq-pal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.bq-pal-head {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.bq-pal-head span {
+  display: block;
+  font-weight: 400;
+  color: var(--ink-faint);
+  letter-spacing: 0;
+}
+
+/* El bloque: colores y "muesca" de abajo como en Scratch */
+.sb {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 7px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+  user-select: none;
+}
+.sb-html {
+  background: #3b82f6;
+}
+.sb-css {
+  background: #a855f7;
+}
+.sb-js {
+  background: #f59e0b;
+  color: #2b1a00;
+}
+.sb:not(.is-palette)::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  bottom: -6px;
+  width: 26px;
+  height: 7px;
+  border-radius: 0 0 7px 7px;
+  background: inherit;
+  filter: brightness(0.92);
+  z-index: 1;
+}
+.sb.is-palette {
+  margin-bottom: 6px;
+  cursor: grab;
+  transition: transform 0.12s, filter 0.12s;
+}
+.sb.is-palette:hover {
+  transform: translateX(3px);
+  filter: brightness(1.1);
+}
+.sb.is-palette:active {
+  cursor: grabbing;
+}
+.sb-t {
+  white-space: nowrap;
+}
+.sb-handle {
+  cursor: grab;
+  opacity: 0.8;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 2px;
+}
+.sb-in {
+  background: #fff;
+  color: #111;
+  border: 0;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font: inherit;
+  font-weight: 500;
+  max-width: 100%;
+  outline: none;
+}
+.sb-in:focus {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35);
+}
+.sb-ta {
+  border-radius: 10px;
+  width: 100%;
+  resize: vertical;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+}
+.sb-color {
+  width: 34px;
+  height: 24px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+}
+.sb-numwrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.sb-num {
+  width: 62px;
+}
+.sb-ctl {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 3px;
+}
+.sb-ctl button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.22);
+  color: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+.sb-ctl button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.sb-code {
+  margin: 0 0 4px;
+  padding: 5px 10px 8px;
+  border-radius: 0 0 8px 8px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #d8ceff;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Zona de armado */
+.bq-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+.bq-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-dim);
+  cursor: pointer;
+}
+.bq-work {
+  min-height: 380px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 2px dashed var(--panel-line);
+  background: rgba(255, 255, 255, 0.02);
+}
+.bq-empty {
+  padding: 40px 14px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 13px;
+}
+.bq-drop {
+  height: 10px;
+  border-radius: 6px;
+  transition: height 0.12s, background 0.12s;
+}
+.bq-drop.is-over {
+  height: 34px;
+  border: 2px dashed var(--violet-soft);
+  background: rgba(196, 139, 255, 0.2);
+}
+
+/* Vista previa y código */
+.bq-right {
+  min-width: 0;
+}
+.bq-frame {
+  width: 100%;
+  height: 320px;
+  border: 0;
+  background: #fff;
+}
+.bq-code {
+  margin: 0;
+  padding: 12px 14px;
+  min-height: 130px;
+  max-height: 280px;
+  overflow: auto;
+  background: #060a12;
+  color: #e9e3ff;
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
