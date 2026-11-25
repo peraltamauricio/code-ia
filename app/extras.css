@@ -1445,3 +1445,133 @@ textarea::placeholder {
 .reto .editor-frame {
   min-height: 260px;
 }
+
+/* =====================================================================
+   JEFE DE LOS RETOS (ChatGPT malvado)
+   ===================================================================== */
+.jefe {
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: 16px;
+  background: rgba(248, 113, 113, 0.05);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.jefe-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.jefe-face {
+  flex: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  background: radial-gradient(circle, rgba(248, 113, 113, 0.45), rgba(248, 113, 113, 0.08));
+  box-shadow: 0 0 18px rgba(248, 113, 113, 0.5);
+  animation: jefeShake 2.4s ease-in-out infinite;
+}
+.jefe-face.is-dead {
+  animation: none;
+  box-shadow: none;
+  filter: grayscale(0.6);
+}
+@keyframes jefeShake {
+  0%, 90%, 100% { transform: rotate(0); }
+  93% { transform: rotate(-6deg); }
+  96% { transform: rotate(6deg); }
+}
+.jefe-info {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+}
+.jefe-hp {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.jefe-hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ef4444, #f97316);
+  transition: width 0.5s ease;
+}
+.jefe-hp-txt {
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+.jefe-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.jefe-done {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.jefe-bubble {
+  padding: 9px 12px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  max-width: 100%;
+  word-break: break-word;
+}
+.jefe-bubble p {
+  margin: 0;
+}
+.jefe-bubble.is-boss {
+  background: rgba(248, 113, 113, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-top-left-radius: 4px;
+  align-self: flex-start;
+}
+.jefe-bubble.is-you {
+  background: rgba(52, 211, 153, 0.14);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  border-top-right-radius: 4px;
+  align-self: flex-end;
+  font-size: 12px;
+}
+.jefe-bubble.is-small {
+  font-size: 12px;
+  padding: 5px 10px;
+  color: var(--ink-dim);
+}
+.jefe-bubble.is-win {
+  font-size: 14px;
+  background: rgba(251, 191, 36, 0.14);
+  border-color: rgba(251, 191, 36, 0.5);
+  animation: popIn 0.4s ease;
+}
+.jefe-ask {
+  margin-top: 8px !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+.jefe-ask span {
+  color: #fca5a5;
+}
+.jefe-ej {
+  margin-top: 8px !important;
+  padding: 8px 10px !important;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--amber);
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+.jefe-wait {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--ink-faint);
+}

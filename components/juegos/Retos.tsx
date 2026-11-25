@@ -3,6 +3,7 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { retos, Reto, Code } from "@/lib/retos";
 import { buildDoc, downloadDoc, LogLine } from "./preview";
+import Jefe from "./Jefe";
 
 type Tab = "html" | "css" | "js";
 
@@ -240,14 +241,6 @@ function RetoView({ reto, onBack, onDone }: { reto: Reto; onBack: () => void; on
         <div className="path-bar-fill" style={{ width: `${(ok / total) * 100}%` }} />
       </div>
       <p className="reto-intro">{reto.intro}</p>
-      <div className="reto-how">
-        <b>¿Cómo se juega?</b>
-        <ol>
-          <li>Leé la misión que está resaltada en violeta.</li>
-          <li>Mirá el <b>ejemplo</b> que aparece abajo de la misión y escribilo en el editor (podés copiarlo y cambiarle el texto).</li>
-          <li>Fijate en la vista previa: cuando está bien, la misión se tilda ✓ sola y pasás a la siguiente.</li>
-        </ol>
-      </div>
 
       {all &&
         (usedSolution ? (
@@ -265,38 +258,13 @@ function RetoView({ reto, onBack, onDone }: { reto: Reto; onBack: () => void; on
         ))}
 
       <div className="reto-body">
-        <ol className="reto-missions">
-          {reto.misiones.map((m, i) => {
-            const isDone = !!results?.[i];
-            // La misión que toca ahora (la primera sin tildar) muestra su ejemplo sola.
-            const isNext = !isDone && reto.misiones.findIndex((_, k) => !results?.[k]) === i;
-            // En los retos "con la IA" la pista es el prompt para pedírselo.
-            const hintText = reto.ai
-              ? `Pedile a la IA algo así: «${m.t}». Pegá el código en script.js y fijate si se tilda.`
-              : m.hint;
-            return (
-              <li key={i} className={`reto-mission${isDone ? " is-done" : ""}${isNext ? " is-next" : ""}`}>
-                <span className="reto-check">{isDone ? "✓" : i + 1}</span>
-                <div className="reto-mission-body">
-                  {isNext && <span className="reto-now">👉 Ahora te toca esta</span>}
-                  <p>{m.t}</p>
-                  {!isDone && hintText && !isNext && (
-                    <button type="button" className="reto-hint-btn" onClick={() => toggleHint(i)}>
-                      {hints.has(i) ? "ocultar ejemplo" : "💡 ver ejemplo"}
-                    </button>
-                  )}
-                  {!isDone && (isNext || hints.has(i)) && hintText && (
-                    <p className="reto-hint">
-                      <span className="reto-hint-label">Ejemplo:</span>
-                      {"\n"}
-                      {hintText}
-                    </p>
-                  )}
-                </div>
-              </li>
-            );
-          })}
-        </ol>
+        <Jefe
+          misiones={reto.misiones}
+          results={results}
+          hintOf={(m) =>
+            reto.ai ? `Pedile a la IA algo así: «${m.t}». Pegá el código en script.js y fijate si se tilda.` : m.hint
+          }
+        />
 
         <div className="reto-work">
           <div className="editor-code">
